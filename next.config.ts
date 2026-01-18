@@ -1,7 +1,19 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+  reactStrictMode: true,
+  images: {
+    domains: ["ecommerce.routemisr.com", "linked-posts.routemisr.com"],
+  },
+  async redirects() {
+    return [
+      {
+        source: "/project",
+        destination: "/",
+        permanent: true,
+      },
+    ]
+  },
+}
 
-export default nextConfig;
+export default nextConfig
