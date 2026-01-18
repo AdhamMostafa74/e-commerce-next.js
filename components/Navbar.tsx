@@ -1,8 +1,9 @@
 "use client"
 
+import { useQuery } from "@tanstack/react-query"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 interface Category {
     _id: string
@@ -11,61 +12,46 @@ interface Category {
 
 export default function Navbar() {
     const pathname = usePathname()
-    const [categories, setCategories] = useState<Category[]>([])
     const [open, setOpen] = useState(false)
 
+    const { data } = useQuery({
+        queryKey: ["getCategories"],
+        queryFn: async () => {
+            const res = await fetch(
+                "https://ecommerce.routemisr.com/api/v1/categories"
+            )
+            return res.json()
+        },
+    })
 
-
-
-    useEffect(() => {
-        async function getCategories() {
-            setCategories([
-                { _id: "1", name: "Electronics" },
-                { _id: "2", name: "Fashion" },
-                { _id: "3", name: "Books" },
-            ])
-        }
-
-        getCategories()
-    }, [])
-
-    // 🔹 Active link helper
     const isActive = (href: string) => {
         if (href === "/") return pathname === "/"
-        return pathname.startsWith(href) || pathname.endsWith(href)
+        return pathname === href || pathname.startsWith(`${href}/`)
     }
 
-
-
     return (
-        <nav className="w-full border-b shadow-sm top-0 sticky bg-white ">
+        <nav className="w-full border-b shadow-sm sticky top-0 bg-white z-50">
             <div className="container mx-auto px-6 py-2 flex items-center justify-between">
 
-                {/* LOGO */}
-                <Link
-                    href={'/'}
-                    className="text-2xl font-bold text-blue-500 cursor-pointer">
+                <Link href="/" className="text-2xl font-bold text-blue-500">
                     CARTY
                 </Link>
 
-                {/* NAV LINKS */}
                 <ul className="flex items-center gap-4 text-sm font-medium">
 
                     <li>
                         <Link
                             href="/home"
-                            className={isActive("/home") ? 'isActive' : 'isNotActive'}
+                            className={isActive("/home") ? "isActive" : "isNotActive"}
                         >
                             HOME
                         </Link>
                     </li>
 
-                    {/* CATEGORIES */}
                     <li className="relative">
                         <button
-                            onClick={() => setOpen(!open)}
+                            className={isActive("/category") ? "isActive" : "isNotActive"}
                             onMouseEnter={() => setOpen(true)}
-
                         >
                             CATEGORIES
                         </button>
@@ -75,11 +61,11 @@ export default function Navbar() {
                                 className="absolute top-full mt-2 w-48 bg-white border rounded shadow-md"
                                 onMouseLeave={() => setOpen(false)}
                             >
-                                {categories.map((category) => (
+                                {data?.data?.map((category: Category) => (
                                     <Link
                                         key={category._id}
                                         href={`/category/${category.name}`}
-                                        className={`block my-2 py-6 text-black px-4 hover:bg-muted ${isActive(`/${category.name}`) ? 'isActive' : 'isNotActive'}`}
+                                        className="block px-4 py-2 hover:bg-gray-100"
                                     >
                                         {category.name}
                                     </Link>
@@ -91,7 +77,7 @@ export default function Navbar() {
                     <li>
                         <Link
                             href="/profile"
-                            className={isActive("/profile") ? 'isActive' : 'isNotActive'}
+                            className={isActive("/profile") ? "isActive" : "isNotActive"}
                         >
                             PROFILE
                         </Link>
@@ -100,7 +86,7 @@ export default function Navbar() {
                     <li>
                         <Link
                             href="/cart"
-                            className={isActive("/cart") ? 'isActive' : 'isNotActive'}
+                            className={isActive("/cart") ? "isActive" : "isNotActive"}
                         >
                             CART
                         </Link>

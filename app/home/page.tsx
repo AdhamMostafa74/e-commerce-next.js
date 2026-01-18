@@ -1,41 +1,24 @@
-import { Post } from '@/interfaces/post'
-import Image from 'next/image'
-import React from 'react'
+'use client'
+import { CarouselComponent } from '@/components/Home Componenets/Carousel'
+import CategoriesCarousel from '@/components/Home Componenets/CategoryCards'
+import TopSellingProductsCard from '@/components/Home Componenets/TopSellingProductsCards'
 
-export default async function page() {
 
-    async function getAllPosts() {
-        try {
-            const response = await fetch('https://linked-posts.routemisr.com/posts?limit=50', {
-                method: 'get',
-                headers: {
-                    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjk1ZDJiOWQxMzExZmQ3YjAzNDYwMjA5IiwiaWF0IjoxNzY4MzgzNzI4fQ.uWt87ISMt27ecZbhm_cmo3JGpM4uuTWQ404AKDCkKOE'
-                }
-                , cache: 'force-cache'
-            })
-            const data = await response.json()
-            return data.posts
-        } catch (error) {
-            console.log(error)
-        }
-    }
+export default function Home() {
 
-    const posts = await getAllPosts()
-    console.log(posts)
 
     return (
-        <div className='container '>
-            {
-                posts?.map((post: Post) => (
-                    <div className='flex items-center flex-col align-middle text-center'
-                        key={post._id}>
-                        {post.body && post.body}
-                        {post?.image && <Image width={400} height={400} alt='test' src={post.image}>
-                        </Image>}
-                    </div>
-                )
+        <div className='container mt-3'>
 
-                )
-            }
+            <CarouselComponent />
+
+            <h2 className="text-center text-2xl md:text-3xl lg:text-2xl font-bold text-blue-500 mb-6 border-b-2 py-3">
+                Popular Categories
+            </h2>
+            <CategoriesCarousel />
+            <h2 className="text-center text-2xl md:text-3xl lg:text-2xl font-bold text-blue-500 mb-6 border-b-2 py-3 mt-3">
+                Top Selling Products
+            </h2>
+            <TopSellingProductsCard />
         </div>)
 }
