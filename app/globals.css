@@ -131,7 +131,7 @@
     @apply mx-auto
   }
   .isActive{
-    @apply bg-blue-500 text-black px-3 py-1 rounded-md
+    @apply bg-slate-300 text-black px-3 py-1 rounded-md
   }
 
   .isNotActive{

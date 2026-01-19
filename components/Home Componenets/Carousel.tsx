@@ -22,10 +22,10 @@ export function CarouselComponent() {
     ]
 
     return (
-        <Carousel className="container w-5/12  mx-auto">
+        <Carousel className="container w-5/12 lg:w-7/12 mx-auto">
             <CarouselContent>
                 {carouselImages.map((_, index) => (
-                    <CarouselItem className="basis-md mt-1" key={index}>
+                    <CarouselItem className="lg:basis-xl basis-md mt-1" key={index}>
                         <div className="p-1  ">
                             <Card>
                                 <CardContent className="flex aspect-video items-center justify-center ">

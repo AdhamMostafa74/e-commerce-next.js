@@ -1,6 +1,6 @@
 'use client'
 
-import Footer from "@/components/Home Componenets/Footer";
+import Footer from "@/components/Footer";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
