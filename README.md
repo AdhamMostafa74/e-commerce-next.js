@@ -30,8 +30,8 @@ featuring dynamic product filtering, category navigation, interactive product ca
 ## 💻 Installation
 
 1. Clone the repository:
-git clone https://github.com/yourusername/project-name.git
-cd project-name
+git clone https://github.com/yourusername/e-commerce-next.js.git
+cd e-commerce-next.js
 
 2. Install dependencies:
 npm install
