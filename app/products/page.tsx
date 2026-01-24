@@ -24,11 +24,11 @@ export default function Page() {
     }) || []
 
     return (
-        <div className='flex'>
+        <div className='flex justify-center sm:flex-row'>
 
             {/* Sidebar */}
 
-            <div className='w-1/4 p-6'>
+            <div className='p-6'>
                 <Sidebar
                     minPrice={minPrice}
                     maxPrice={maxPrice}
@@ -40,8 +40,8 @@ export default function Page() {
             {/* Products */}
 
             <div className="
-                      w-3/4 bg-slate-200 m-6 rounded-t-2xl
-                      grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 
+                       bg-slate-200 m-6 rounded-t-2xl
+                      grid grid-cols-  sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 
                       gap-6 p-10">
                 {isLoading ? (
                     <div>Loading...</div>

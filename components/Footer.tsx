@@ -3,9 +3,10 @@
 import { FaFacebookF, FaLinkedinIn, FaGithub } from "react-icons/fa"
 import Image from "next/image"
 import Link from "next/link"
-import shippingImage from "@/assets/shipping2.png"
-import paymentImage from "@/assets/payment.jpg"
-import supportImage from "@/assets/support.jpg"
+import shippingImage from "@/assets/Free shipping-pana.svg"
+import paymentImage from "@/assets/Online transactions-amico.svg"
+import supportImage from "@/assets/Contact us-cuate.svg"
+
 
 export default function Footer() {
     const footerItems = [
@@ -51,14 +52,15 @@ export default function Footer() {
             <div className="border-t border-gray-300 mt-8"></div>
 
             {/* Bottom Section */}
-            <div className="container mx-auto p-6 flex flex-col md:flex-row justify-between items-center gap-6">
-                {/* Left: Copyright */}
-                <span className="text-gray-600 text-sm">
-                    &copy; {new Date().getFullYear()} Your Store. All rights reserved.
+            <div className="container mx-auto p-6 relative flex flex-col md:flex-row items-center gap-6">
+
+                {/* Left */}
+                <span className="text-gray-600 text-sm md:absolute md:left-6 md:top-1/2 md:-translate-y-1/2">
+                    Carty by Adham Mostafa. All rights reserved. &copy; {new Date().getFullYear()}
                 </span>
 
-                {/* Center: Social Icons */}
-                <div className="flex gap-6">
+                {/* Center  */}
+                <div className="flex gap-6 md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
                     <Link href="https://www.facebook.com/adham.mostafa.372" target="_blank" className="text-blue-600 hover:text-blue-800 transition-colors">
                         <FaFacebookF size={24} />
                     </Link>
@@ -70,8 +72,8 @@ export default function Footer() {
                     </Link>
                 </div>
 
-                {/* Right: Quick Links */}
-                <div className="flex gap-4">
+                {/* Right */}
+                <div className="flex gap-4 md:absolute md:right-6 md:top-1/2 md:-translate-y-1/2">
                     <Link href="#" className="text-gray-700 hover:text-blue-500 transition-colors text-sm">
                         Privacy Policy
                     </Link>
@@ -82,7 +84,9 @@ export default function Footer() {
                         Contact Us
                     </Link>
                 </div>
+
             </div>
+
         </footer>
     )
 }
