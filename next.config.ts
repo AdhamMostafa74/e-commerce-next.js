@@ -3,7 +3,13 @@ import type { NextConfig } from "next"
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["ecommerce.routemisr.com", "linked-posts.routemisr.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "ecommerce.routemisr.com",
+        pathname: "/**",
+      },
+    ],
   },
   async redirects() {
     return [
