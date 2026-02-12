@@ -12,9 +12,9 @@ interface AddtoCartProps {
 
 
 export default function AddToCartButton({ productId }: AddtoCartProps) {
-    const { refetch } = useGetCart();
+    useGetCart();
 
-    const { mutate, isPending } = useAddToCard(refetch)
+    const { mutate, isPending } = useAddToCard()
 
     const handleClick = () => {
 
