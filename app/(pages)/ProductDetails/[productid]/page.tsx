@@ -83,7 +83,7 @@ export default function ProductDetails() {
                                     stock={data.data.quantity}
                                 />
                                 <div className='w-1/2 pe-12  '>
-                                    <AddToCartButton />
+                                    <AddToCartButton productId={data.data._id} />
 
                                 </div>
                                 <ProductTabs

@@ -4,6 +4,9 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
 import { Menu, X } from "lucide-react"
+import { useGetCart } from "@/hooks/useCart"
+import CartOverlay from "./Cart Components/CartOverlay"
+import { FaSpinner } from "react-icons/fa"
 
 const ActiveBar = ({ active }: { active: boolean }) => (
     <span
@@ -18,7 +21,11 @@ export default function Navbar() {
     const pathname = usePathname()
     const [open, setOpen] = useState(false)
 
-    const cartCount = 2 // 🔴 replace with real cart state later
+
+    const [cartOpen, setCartOpen] = useState(false)
+
+    const { data, refetch } = useGetCart()
+
 
     const isActive = (href: string) =>
         pathname === href || pathname.startsWith(`${href}/`)
@@ -51,16 +58,30 @@ export default function Navbar() {
 
                         {/* Cart with badge */}
                         <li>
-                            <Link href="/cart" className={linkClass("/cart")}>
+                            <button
+                                onClick={() => setCartOpen(true)}
+                                className={linkClass("/cart")}
+                            >
                                 CART
-                                {cartCount > 0 && (
-                                    <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs px-2 rounded-full">
-                                        {cartCount}
-                                    </span>
-                                )}
-                                <ActiveBar active={isActive("/cart")} />
-                            </Link>
+                                {
+                                    data?.numOfCartItems ?
+                                        <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs px-2 rounded-full">
+                                            {data!.numOfCartItems}
+                                        </span>
+                                        : data?.numOfCartItems === 0 ?
+                                            <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs px-2 rounded-full">
+                                                {data!.numOfCartItems}
+                                            </span>
+                                            : <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs px-2 rounded-full">
+                                                <FaSpinner className="animate-spin" />
+                                            </span>
+
+                                }
+
+
+                            </button>
                         </li>
+
                     </ul>
 
                     {/* Burger */}
@@ -108,6 +129,13 @@ export default function Navbar() {
                     ))}
                 </ul>
             </aside>
+            <CartOverlay
+                isOpen={cartOpen}
+                onClose={() => setCartOpen(false)}
+                cart={data!}
+                refetechcart={refetch}
+
+            />
         </>
     )
 }

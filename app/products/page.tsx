@@ -41,13 +41,15 @@ export default function Page() {
 
             <div className="
                        bg-slate-200 m-6 rounded-t-2xl
-                      grid grid-cols-  sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 
+                      grid grid-cols-3  sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 
                       gap-6 p-10">
                 {isLoading ? (
                     <div>Loading...</div>
                 ) : filteredProducts.length > 0 ? (
                     filteredProducts.map((product: Product) => (
-                        <Card key={product.id} product={product} />
+                        <Card key={product._id}
+                            product={product}
+                        />
                     ))
                 ) : (
                     <div>No products found in this range.</div>

@@ -9,11 +9,10 @@ import AddToCartButton from '@/utilities/AddToCartButton'
 
 
 type productProps = {
-    product?: Product
-    category?: Category
+    product?: Product;
+    category?: Category;
 }
 export default function Card({ product, category }: productProps) {
-
 
 
     return (
@@ -97,25 +96,30 @@ export default function Card({ product, category }: productProps) {
                 </div>
 
                 <div className=' px-5 flex'>
-                    <AddToCartButton />
+                    <AddToCartButton
+                        productId={product._id}
+                    />
                 </div>
             </div> :
 
                 // category part
                 <div
                     key={category?._id}
-                    className="w-52 bg-white rounded-lg shadow-md overflow-hidden 
-                    py-3 flex flex-col justify-between
-                     transform transition-transform duration-200 hover:scale-105 cursor-pointer"
+                    className="w-56 bg-white rounded-lg shadow-md overflow-hidden 
+               py-3 flex flex-col justify-between
+               transform transition-transform duration-200 hover:scale-105 cursor-pointer"
                 >
                     {/* Image */}
-                    <div className="relative w-full lg:h-64 md:h-48  rounded-xl pb-3 border-b">
-                        <Link href={`/${category?.name}`}>
+                    <div className="relative w-full h-40 sm:h-48 md:h-48 lg:h-64 rounded-xl border-b">
+                        <Link href={`Category/${category?._id}`}>
                             <Image
                                 src={category?.image || placeHolderImage}
                                 alt={category!.name}
                                 fill
-                                className="object-cover p-2 rounded-2xl font-cursive"
+                                sizes="(max-width: 640px) 200px,
+                       (max-width: 768px) 240px,
+                       260px"
+                                className="object-cover p-2 rounded-2xl"
                             />
                         </Link>
                     </div>
@@ -125,6 +129,7 @@ export default function Card({ product, category }: productProps) {
                         {category?.name}
                     </div>
                 </div>
+
             }
 
         </div>
