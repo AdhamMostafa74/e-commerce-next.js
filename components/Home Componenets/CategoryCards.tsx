@@ -2,7 +2,7 @@
 
 import { useCategories } from "@/hooks/useCategories"
 import Card from "../Card"
-import { Category } from "@/interfaces/Product"
+import { Category } from "@/types/Product"
 import { useEffect, useRef, useState } from "react"
 import CategoriesSkeletonCarousel from "@/utilities/CategorySkeleton"
 

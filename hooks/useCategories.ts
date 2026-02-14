@@ -1,7 +1,7 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
-import { Category } from "@/interfaces/Product"
+import { Category } from "@/types/Product"
 import { baseUrl } from "./api"
 import { ParamValue } from "next/dist/server/request/params"
 

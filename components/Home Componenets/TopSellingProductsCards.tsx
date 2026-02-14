@@ -1,6 +1,6 @@
 "use client"
 
-import { Product } from "@/interfaces/Product"
+import { Product } from "@/types/Product"
 import { useMemo } from "react"
 import Card from "../Card"
 import { useProducts } from "@/hooks/useProducts"

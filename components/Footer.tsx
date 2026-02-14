@@ -25,7 +25,7 @@ export default function Footer() {
     ]
 
     return (
-        <footer className="w-full bg-slate-200 mt-20">
+        <footer className="w-full bg-slate-200 ">
             {/* Top Section: Why Choose Us */}
             <div className="text-center py-6">
                 <h2 className="text-2xl md:text-3xl font-bold text-blue-500 mb-6">

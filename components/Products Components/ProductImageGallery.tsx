@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { Data } from "@/interfaces/Product"
+import { Data } from "@/types/Product"
 
 type ProductImageGalleryProps = Pick<
     Data,

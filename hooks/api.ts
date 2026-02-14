@@ -1,1 +1,2 @@
 export const baseUrl = process.env.NEXT_PUBLIC_API_KEY;
+export const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzdjNzEzODI0ZDMzNjJjNDUyZDE3MiIsIm5hbWUiOiJBZGhhbSBNb3N0YWZhIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3Njk0NTc0MjgsImV4cCI6MTc3NzIzMzQyOH0.chP1j1CltDmBFTruLvdbZcY1U7Us3Eyf2qtkRPUBahQ'

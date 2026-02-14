@@ -2,7 +2,7 @@
 "use client"
 
 import { useChangeItemQuantity, useClearCart, useRemoveCartItem } from "@/hooks/useCart"
-import { Cart } from "@/interfaces/cart"
+import { Cart } from "@/types/cart"
 import { X, ShoppingCart, Trash2 } from "lucide-react"
 import CartProductCard from '@/components/Cart Components/CartProductCard'
 import { useState } from "react"

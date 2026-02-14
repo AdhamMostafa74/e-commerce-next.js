@@ -1,4 +1,4 @@
-import { Category, Product } from '@/interfaces/Product'
+import { Category, Product } from '@/types/Product'
 import { Star } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'

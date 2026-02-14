@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { baseUrl } from "./api"
-import { subcategories } from "@/interfaces/subCategories"
+import { subcategories } from "@/types/subCategories"
 
 interface subCatResponse {
     data: subcategories[]

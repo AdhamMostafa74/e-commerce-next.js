@@ -4,7 +4,7 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
-import { Product } from "@/interfaces/Product"
+import { Product } from "@/types/Product"
 import { baseUrl } from "./api"
 
 interface ProductsResponse {
@@ -38,16 +38,13 @@ export function useProducts2(catId?: string) {
         queryKey: ["getProducts", catId],
 
         queryFn: async () => {
-            // 1️⃣ Create URL object
             const url = new URL(baseUrl + "products")
 
-            // 2️⃣ Conditionally add query param
             if (catId) {
                 url.searchParams.append("category[in]", catId)
                 console.log(url.href)
             }
 
-            // 3️⃣ Fetch
             const res = await fetch(url.toString(), {
                 cache: "force-cache",
             })
@@ -59,7 +56,6 @@ export function useProducts2(catId?: string) {
             return res.json()
         },
 
-        // 4️⃣ Optional but recommended
         enabled: catId !== undefined,
     })
 }

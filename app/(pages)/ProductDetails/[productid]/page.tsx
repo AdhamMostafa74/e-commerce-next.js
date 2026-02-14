@@ -4,7 +4,7 @@
 
 import ProductImageGallery from '@/components/Products Components/ProductImageGallery'
 import { useSignleProduct } from '@/hooks/useSingleProduct'
-import { ProductDetails as PD } from '@/interfaces/Product'
+import { ProductDetails as PD } from '@/types/Product'
 import AddToCartButton from '@/utilities/AddToCartButton'
 import Breadcrumb from '@/utilities/BreadCrumb'
 import LoadingScreen from '@/utilities/LoadingScreen'

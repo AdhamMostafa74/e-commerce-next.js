@@ -2,7 +2,7 @@ import { Minus, Plus, X } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
 import { CgSpinner } from 'react-icons/cg'
-import { CartProduct } from '@/interfaces/cart'
+import { CartProduct } from '@/types/cart'
 
 interface CartProductCardProps {
     item: CartProduct

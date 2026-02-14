@@ -3,7 +3,7 @@
 import Card from '@/components/Card'
 import Sidebar from '@/components/Products Components/sidebar'
 import { useProducts } from '@/hooks/useProducts'
-import { Product } from '@/interfaces/Product'
+import { Product } from '@/types/Product'
 import React, { useState } from 'react'
 
 export default function Page() {

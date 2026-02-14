@@ -8,7 +8,7 @@ export default function Home() {
 
 
   return (
-    <div className='container mt-3'>
+    <div className='container mt-3 bg-slate-100'>
 
       <CarouselComponent />
 

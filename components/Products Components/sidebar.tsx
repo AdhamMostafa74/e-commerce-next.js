@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useCategories } from "@/hooks/useCategories"
-import { Category } from "@/interfaces/Product"
+import { Category } from "@/types/Product"
 import { SlidersHorizontal } from "lucide-react"
 
 type SidebarProps = {

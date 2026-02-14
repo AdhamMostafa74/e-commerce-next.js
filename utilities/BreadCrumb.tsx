@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { ChevronRight } from "lucide-react"
-import { Product } from "@/interfaces/Product"
+import { Product } from "@/types/Product"
 
 type ProductBreadcrumbProps = Pick<
     Product,

@@ -1,9 +1,9 @@
 "use client"
 
-import { Cart } from "@/interfaces/cart"
+import { Cart } from "@/types/cart"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import toast from "react-hot-toast"
-import { baseUrl } from "./api"
+import { baseUrl, token } from "./api"
 
 
 
@@ -13,11 +13,11 @@ export function useAddToCard() {
     const query = useMutation({
         mutationKey: ["addToCart"],
         mutationFn: async (prodId: string) => {
-            const res = await fetch("https://ecommerce.routemisr.com/api/v1/cart", {
+            const res = await fetch(baseUrl + "cart", {
                 method: 'post',
                 headers: {
                     "Content-Type": "application/json",
-                    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzdjNzEzODI0ZDMzNjJjNDUyZDE3MiIsIm5hbWUiOiJBZGhhbSBNb3N0YWZhIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3Njk0NTc0MjgsImV4cCI6MTc3NzIzMzQyOH0.chP1j1CltDmBFTruLvdbZcY1U7Us3Eyf2qtkRPUBahQ'
+                    token: token
                 },
                 body: JSON.stringify({ productId: prodId })
             })
@@ -48,10 +48,10 @@ export function useGetCart() {
     const query = useQuery<Cart>({
         queryKey: ["getCart"],
         queryFn: async () => {
-            const res = await fetch("https://ecommerce.routemisr.com/api/v1/cart", {
+            const res = await fetch(baseUrl + "cart", {
                 method: 'get',
                 headers: {
-                    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzdjNzEzODI0ZDMzNjJjNDUyZDE3MiIsIm5hbWUiOiJBZGhhbSBNb3N0YWZhIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3Njk0NTc0MjgsImV4cCI6MTc3NzIzMzQyOH0.chP1j1CltDmBFTruLvdbZcY1U7Us3Eyf2qtkRPUBahQ'
+                    token: token
                 },
             })
 
@@ -73,10 +73,10 @@ export function useRemoveCartItem(prodId: string) {
     const query = useMutation<Cart>({
         mutationKey: ["removeCartItem"],
         mutationFn: async () => {
-            const res = await fetch("https://ecommerce.routemisr.com/api/v1/cart/" + prodId, {
+            const res = await fetch(baseUrl + "cart/" + prodId, {
                 method: 'delete',
                 headers: {
-                    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzdjNzEzODI0ZDMzNjJjNDUyZDE3MiIsIm5hbWUiOiJBZGhhbSBNb3N0YWZhIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3Njk0NTc0MjgsImV4cCI6MTc3NzIzMzQyOH0.chP1j1CltDmBFTruLvdbZcY1U7Us3Eyf2qtkRPUBahQ'
+                    token: token
                 },
             })
 
@@ -111,7 +111,7 @@ export function useClearCart() {
             const res = await fetch(baseUrl + "cart", {
                 method: "delete",
                 headers: {
-                    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzdjNzEzODI0ZDMzNjJjNDUyZDE3MiIsIm5hbWUiOiJBZGhhbSBNb3N0YWZhIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3Njk0NTc0MjgsImV4cCI6MTc3NzIzMzQyOH0.chP1j1CltDmBFTruLvdbZcY1U7Us3Eyf2qtkRPUBahQ'
+                    token: token
                 }
             })
             if (!res.ok) {
@@ -141,13 +141,12 @@ export function useChangeItemQuantity() {
     return useMutation({
         mutationKey: ["changeItemQuantity"],
 
-        // ✅ 1. API CALL ONLY
         mutationFn: async ({ prodId, itemCount }: { prodId: string; itemCount: number }) => {
             const res = await fetch(baseUrl + "cart/" + prodId, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
-                    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzdjNzEzODI0ZDMzNjJjNDUyZDE3MiIsIm5hbWUiOiJBZGhhbSBNb3N0YWZhIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3Njk0NTc0MjgsImV4cCI6MTc3NzIzMzQyOH0.chP1j1CltDmBFTruLvdbZcY1U7Us3Eyf2qtkRPUBahQ'
+                    token: token
 
                 },
                 body: JSON.stringify({ count: itemCount }),
@@ -160,7 +159,6 @@ export function useChangeItemQuantity() {
             return res.json()
         },
 
-        // ✅ 2. OPTIMISTIC UPDATE
         onMutate: async ({ prodId, itemCount }) => {
             await queryClient.cancelQueries({ queryKey: ["getCart"] })
 
@@ -185,14 +183,12 @@ export function useChangeItemQuantity() {
             return { previousCart }
         },
 
-        // ✅ 3. ROLLBACK ON FAILURE
         onError: (error, variables, context) => {
             if (context?.previousCart) {
                 queryClient.setQueryData(["getCart"], context.previousCart)
             }
         },
 
-        // ✅ 4. FINAL SYNC WITH SERVER
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["getCart"] })
         },

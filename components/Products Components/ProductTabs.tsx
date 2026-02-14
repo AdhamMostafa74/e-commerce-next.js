@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react"
 import ReviewsSkeleton from "../../utilities/ReviewsSkeleton"
-import { Review } from "@/interfaces/Product"
+import { Review } from "@/types/Product"
 import { Star } from "lucide-react"
 
 type ProductTabsProps = {
