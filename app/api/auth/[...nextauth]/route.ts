@@ -1,4 +1,4 @@
-import { login } from "@/hooks/auth";
+import { login } from "@/services/auth";
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
 

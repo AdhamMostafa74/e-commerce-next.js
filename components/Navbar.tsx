@@ -15,6 +15,7 @@ import { FaSpinner } from "react-icons/fa"
 
 import { useGetCart } from "@/hooks/useCart"
 import CartOverlay from "./Cart Components/CartOverlay"
+import { CgSpinner } from "react-icons/cg"
 
 /* ---------------- Active underline ---------------- */
 const ActiveBar = ({ active }: { active: boolean }) => (
@@ -35,6 +36,8 @@ export default function Navbar() {
     const { data, refetch } = useGetCart()
     const { status } = useSession()
 
+    console.log(status)
+
     const isAuthenticated = status === "authenticated"
 
     const isActive = (href: string) =>
@@ -51,7 +54,7 @@ export default function Navbar() {
         { href: "/products", label: "PRODUCTS" },
         isAuthenticated
             ? { href: "/profile", label: "PROFILE" }
-            : { href: "api/auth/signin", label: "LOGIN" },
+            : { href: "/api/auth/signin", label: "LOGIN" },
     ]
 
     /* -------- Close logout modal on ESC -------- */
@@ -87,11 +90,11 @@ export default function Navbar() {
                     </ul>
 
                     {/* -------- Right Actions (Desktop) -------- */}
-                    <div className="hidden lg:flex items-center gap-4 relative">
+                    <div className={` lg:flex items-center gap-4 relative ${isAuthenticated ? 'block' : 'invisible'}`}>
                         {/* Cart */}
                         <button
                             onClick={() => setCartOpen(true)}
-                            className="relative text-gray-600 hover:text-blue-500"
+                            className={`relative text-gray-600 hover:text-blue-500 ${status != 'authenticated' ? `hidden` : `block`}`}
                         >
                             <ShoppingCart />
                             <span className="absolute -top-2 -right-3 min-w-4 h-4 bg-blue-500 text-white text-xs rounded-full flex items-center justify-center">
@@ -104,25 +107,25 @@ export default function Navbar() {
                         </button>
 
                         {/* Wishlist */}
-                        {isAuthenticated && (
-                            <Link
-                                href="/wishlist"
-                                className="text-gray-600 hover:text-red-500 transition-colors"
-                            >
-                                <Heart className="hover:fill-red-500 transition-all" />
-                            </Link>
-                        )}
+
+                        <Link
+                            href="/wishlist"
+                            className="text-gray-600 hover:text-red-500 transition-colors"
+                        >
+                            <Heart className="hover:fill-red-500 transition-all" />
+                        </Link>
+
 
                         {/* Logout */}
-                        {isAuthenticated && (
-                            <button
-                                onClick={() => setLogoutOpen(true)}
-                                className="text-gray-600 hover:text-red-600 transition-colors"
-                                title="Logout"
-                            >
-                                <LogOut />
-                            </button>
-                        )}
+
+                        <button
+                            onClick={() => setLogoutOpen(true)}
+                            className="text-gray-600 hover:text-red-600 transition-colors"
+                            title="Logout"
+                        >
+                            <LogOut />
+                        </button>
+
                     </div>
 
                     {/* -------- Burger -------- */}
@@ -211,16 +214,17 @@ export default function Navbar() {
                             <div className="mt-6 flex justify-end gap-3">
                                 <button
                                     onClick={() => setLogoutOpen(false)}
-                                    className="px-4 py-2 rounded-md border text-gray-600 hover:bg-gray-100"
+                                    className="px-4 py-2 rounded-md border text-gray-600 hover:bg-gray-200 transform transition-all duration-300 cursor-pointer"
                                 >
                                     Cancel
                                 </button>
 
                                 <button
-                                    onClick={() => signOut({ callbackUrl: "/login" })}
-                                    className="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700"
+                                    onClick={() => signOut({ callbackUrl: "/api/auth/signin" })}
+                                    className="px-4 py-2 rounded-md bg-red-700 text-white  transform transition-all duration-300  hover:bg-red-300 cursor-pointer"
+
                                 >
-                                    Logout
+                                    {status == 'loading' ? <CgSpinner className=" animate-spin" /> : "Logout"}
                                 </button>
                             </div>
                         </div>
