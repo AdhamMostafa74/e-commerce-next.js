@@ -22,13 +22,14 @@ import {
 import { useRouter, useSearchParams } from "next/navigation";
 import { CgSpinner } from "react-icons/cg";
 import ForgotPasswordPage from "./forgotPassword";
+import Link from "next/link";
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
     const [serverError, setServerError] = useState<string | null>(null);
     const [showPassword, setShowPassword] = useState(false);
-    const [showForgotPassword, setShowForgotPassword] = useState(true);
+    const [showForgotPassword, setShowForgotPassword] = useState(false);
 
 
     const router = useRouter()
@@ -181,12 +182,12 @@ export default function LoginForm() {
 
                         <p className="mt-4 text-center text-sm text-gray-600">
                             Don’t have an account?{" "}
-                            <a
-                                href="/register"
+                            <Link
+                                href="/auth/register"
                                 className="font-medium text-blue-600 hover:underline"
                             >
                                 Register
-                            </a>
+                            </Link>
                         </p>
                     </CardContent>
                 </Card>}

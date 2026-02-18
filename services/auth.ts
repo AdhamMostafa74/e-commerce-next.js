@@ -1,4 +1,5 @@
-import { EmailForm } from "@/app/auth/login/forgotPassword";
+import { CodeForm, EmailForm } from "@/app/auth/login/forgotPassword";
+import { rePasswordForm } from "@/app/auth/passwordreset/page";
 import { RegisterFormData } from "@/app/auth/register/page";
 import { baseUrl } from "@/hooks/api";
 
@@ -39,6 +40,35 @@ export async function forgotPassword(email: EmailForm) {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(email),
+    });
+
+    const data = await res.json();
+
+    return data;
+}
+
+
+export async function verifyCode(code: CodeForm) {
+    const res = await fetch(baseUrl + "auth/verifyResetCode", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(code),
+    });
+
+    const data = await res.json();
+
+    return data;
+}
+
+export async function resetPassword(passwordData: rePasswordForm) {
+    const res = await fetch(baseUrl + "auth/resetPassword", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(passwordData),
     });
 
     const data = await res.json();

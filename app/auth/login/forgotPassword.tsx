@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
@@ -17,17 +17,19 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { forgotPassword } from "@/services/auth";
+import { forgotPassword, verifyCode } from "@/services/auth";
+import { useRouter } from "next/navigation";
+import { CgSpinner } from "react-icons/cg";
 
 const CODE_LENGTH = 6;
 
 const emailSchema = z.object({
-    email: z.string().email("Enter a valid email"),
+    email: z.email("Enter a valid email"),
 });
 
 const codeSchema = z.object({
     email: z.email(),
-    code: z.string().length(CODE_LENGTH, "Invalid code"),
+    resetCode: z.string().length(CODE_LENGTH, "Invalid code"),
 });
 
 export type EmailForm = z.infer<typeof emailSchema>;
@@ -45,34 +47,51 @@ export default function ForgotPasswordPage({
         resolver: zodResolver(emailSchema),
         mode: "onChange",
     });
+    const router = useRouter()
 
     const codeForm = useForm<CodeForm>({
         resolver: zodResolver(codeSchema),
         mode: "onChange",
-        defaultValues: { code: "" },
+        defaultValues: { resetCode: "" },
     });
 
-    // cooldown timer
     useEffect(() => {
         if (cooldown <= 0) return;
         const i = setInterval(() => setCooldown((c) => c - 1), 1000);
         return () => clearInterval(i);
     }, [cooldown]);
 
-    // ⏎ auto-submit when code is complete
+    const onVerifyCode = async (data: CodeForm) => {
+
+        const response = await verifyCode(data);
+
+        if (response?.status == "Success") {
+            router.push("/auth/passwordreset")
+        } else {
+            toast.error(response.message);
+            toast.error('Incorrect Code!');
+        }
+    };
+
+    const code = useWatch({
+        control: codeForm.control,
+        name: "resetCode",
+    })
+
     useEffect(() => {
-        const code = codeForm.watch("code");
         if (code?.length === CODE_LENGTH) {
             codeForm.handleSubmit(onVerifyCode)();
         }
-    }, [codeForm.watch("code")]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [code]);
+
 
     const onSendCode = async (data: EmailForm) => {
         if (cooldown > 0) return;
 
         const response = await forgotPassword(data);
 
-        if (response?.ok) {
+        if (response?.statusMsg == "success") {
             toast.success("Reset code sent to your email.");
             setStep("code");
             setCooldown(60);
@@ -82,13 +101,10 @@ export default function ForgotPasswordPage({
         }
     };
 
-    const onVerifyCode = async (data: CodeForm) => {
-        console.log(data);
-    };
+
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-slate-100 p-12">
-            {/* ✅ SAME CARD AS LOGIN */}
             <Card className="w-2xl max-w-2xl sm:max-w-md md:max-w-xl lg:max-w-2xl lg:p-8 shadow-md bg-slate-200 p-6">
                 <CardHeader>
                     <CardTitle className="text-center text-2xl sm:text-3xl">
@@ -135,11 +151,15 @@ export default function ForgotPasswordPage({
                     )}
 
                     {step === "code" && (
-                        <Form {...codeForm}>
-                            <form className="space-y-4">
+                        <Form {...codeForm}
+                        >
+
+                            <form className="space-y-4"
+                                onSubmit={codeForm.handleSubmit(onVerifyCode)}
+                            >
                                 <FormField
                                     control={codeForm.control}
-                                    name="code"
+                                    name="resetCode"
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel>
@@ -156,6 +176,19 @@ export default function ForgotPasswordPage({
                                         </FormItem>
                                     )}
                                 />
+
+                                {!codeForm.formState.isSubmitting ? <Button className="w-full h-10 sm:h-11 bg-blue-500 text-lg hover:bg-blue-600"
+                                >
+                                    Submit Code
+                                </Button>
+                                    :
+                                    <Button className="w-full h-10 sm:h-11 bg-blue-500 text-lg hover:bg-blue-600 disabled:bg-blue-300"
+                                        disabled
+                                    >
+                                        <CgSpinner className="animate-spin" />
+                                        Verifying...
+                                    </Button>
+                                }
 
                                 <p className="text-sm text-center text-gray-600">
                                     Didn’t receive the code?{" "}
