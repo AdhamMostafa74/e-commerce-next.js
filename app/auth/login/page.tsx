@@ -24,6 +24,9 @@ import { CgSpinner } from "react-icons/cg";
 import ForgotPasswordPage from "./forgotPassword";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
+
 type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
