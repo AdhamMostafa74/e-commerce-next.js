@@ -1,22 +1,20 @@
-"use client";
 
-import { useState } from "react";
+import { Suspense } from "react";
 
-import { useSearchParams } from "next/navigation";
-import ForgotPasswordPage from "./forgotPassword";
-import Login from "./login";
+import LoginPageContent from "./LoginPageContent";
 
 export const dynamic = "force-dynamic";
 
+type SearchParams = {
+    callbackUrl?: string;
+};
 
+type Props = {
+    searchParams: SearchParams;
+};
 
-export default function LoginForm() {
-    const [showForgotPassword, setShowForgotPassword] = useState(false);
-
-
-    const searchParams = useSearchParams();
-
-    const rawCallbackUrl = searchParams.get("callbackUrl");
+export default function LoginForm({ searchParams }: Props) {
+    const rawCallbackUrl = searchParams.callbackUrl;
 
     const callbackUrl =
         rawCallbackUrl &&
@@ -25,14 +23,12 @@ export default function LoginForm() {
             ? rawCallbackUrl
             : "/home";
 
-
-
     return (
-        <div className="flex min-h-screen items-center justify-center bg-slate-100 p-12">
-            {showForgotPassword ? <ForgotPasswordPage onBack={() => setShowForgotPassword(false)} />
-                : <Login
-                    setShowForgotPassword={setShowForgotPassword}
-                    callbackUrl={callbackUrl} />}
-        </div>
+        <Suspense fallback={<div>Loading...</div>}>
+            <LoginPageContent callbackUrl={callbackUrl} />
+        </Suspense>
     );
 }
+
+
+
