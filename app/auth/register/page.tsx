@@ -1,20 +1,22 @@
-'use client'
 import { z } from "zod";
 
 import { registerSchema } from "./schema";
-import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import RegisterForm from "./RegisterForm";
 
 
+type SearchParams = {
+    callbackUrl?: string;
+};
+
+type Props = {
+    searchParams: SearchParams;
+};
 
 export type RegisterFormData = z.infer<typeof registerSchema>;
 
-export default function RegisterPage() {
-
-    const searchParams = useSearchParams();
-
-    const rawCallbackUrl = searchParams.get("callbackUrl");
+export default function RegisterPage({ searchParams }: Props) {
+    const rawCallbackUrl = searchParams.callbackUrl
 
     const callbackUrl =
         rawCallbackUrl &&
