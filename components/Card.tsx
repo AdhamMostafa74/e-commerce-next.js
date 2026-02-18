@@ -1,20 +1,24 @@
+'use client'
+
 import { Category, Product } from '@/types/Product'
-import { Star } from 'lucide-react'
+import { Heart, Star } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import placeHolderImage from '@/assets/placeholder.webp'
 import AddToCartButton from '@/utilities/AddToCartButton'
+import { useAddWishlist } from '@/hooks/useWishlist'
 
 
 
 type productProps = {
     product?: Product;
     category?: Category;
+    wishlist?: boolean;
 }
-export default function Card({ product, category }: productProps) {
+export default function Card({ product, category, wishlist }: productProps) {
 
-
+    const { mutate } = useAddWishlist()
     return (
         <div className="flex flex-wrap gap-4 justify-center mt-3">
 
@@ -42,6 +46,21 @@ export default function Card({ product, category }: productProps) {
                     >
                         {product.brand.name}
                     </span>
+                    {/* wishlist icon */}
+                    <button
+                        onClick={() => mutate(product!._id)}
+                        className="
+                            absolute top-3 right-3 z-10
+                             bg-transparent 
+                            text-xs italic
+                            p-1
+                            rounded-full
+                            shadow-md
+                            font-cursive
+                            "
+                    >
+                        <Heart fill={`${wishlist ? 'red' : 'transparent'}`} className='bg-transparent' />
+                    </button>
 
                     <Link href={`/ProductDetails/${product._id}`}>
                         <div className="shadow-2xl">

@@ -34,9 +34,9 @@ export default function Navbar() {
     const [logoutOpen, setLogoutOpen] = useState(false)
 
     const { data, refetch } = useGetCart()
-    const { status } = useSession()
+    const { status, data: userData } = useSession()
 
-    console.log(status)
+    console.log(userData)
 
     const isAuthenticated = status === "authenticated"
 
@@ -90,7 +90,7 @@ export default function Navbar() {
                     </ul>
 
                     {/* -------- Right Actions (Desktop) -------- */}
-                    <div className={` lg:flex items-center gap-4 relative ${isAuthenticated ? 'block' : 'invisible'}`}>
+                    <div className={`hidden lg:flex items-center gap-4 relative ${isAuthenticated ? 'block ' : 'invishible'}`}>
                         {/* Cart */}
                         <button
                             onClick={() => setCartOpen(true)}

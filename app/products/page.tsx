@@ -6,7 +6,7 @@ import { useProducts } from '@/hooks/useProducts'
 import { Product } from '@/types/Product'
 import React, { useState } from 'react'
 
-export default function Page() {
+export default function Products() {
 
     // states
 

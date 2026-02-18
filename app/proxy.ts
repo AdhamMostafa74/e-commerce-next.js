@@ -4,8 +4,10 @@ import { NextResponse, NextRequest } from 'next/server'
 export async function proxy(request: NextRequest) {
     const token = await getToken({ req: request });
 
+
     if (token?.token) {
         return NextResponse.next();
+
     }
 
     const isOnLoginPage = request.nextUrl.pathname.startsWith("/auth/login");
