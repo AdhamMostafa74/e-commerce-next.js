@@ -36,7 +36,7 @@ export default function Navbar() {
     const { data, refetch } = useGetCart()
     const { status, data: userData } = useSession()
 
-    console.log(userData)
+    console.log(status)
 
     const isAuthenticated = status === "authenticated"
 
@@ -90,11 +90,12 @@ export default function Navbar() {
                     </ul>
 
                     {/* -------- Right Actions (Desktop) -------- */}
-                    <div className={`hidden lg:flex items-center gap-4 relative ${isAuthenticated ? 'block ' : 'invishible'}`}>
+                    <div className={`${status === 'authenticated' ? 'hidden lg:flex' : ' invisible lg:invisible flex'}  items-center gap-4 relative`}
+                    >
                         {/* Cart */}
                         <button
                             onClick={() => setCartOpen(true)}
-                            className={`relative text-gray-600 hover:text-blue-500 ${status != 'authenticated' ? `hidden` : `block`}`}
+                            className={`relative text-gray-600 hover:text-blue-500 `}
                         >
                             <ShoppingCart />
                             <span className="absolute -top-2 -right-3 min-w-4 h-4 bg-blue-500 text-white text-xs rounded-full flex items-center justify-center">
@@ -110,9 +111,18 @@ export default function Navbar() {
 
                         <Link
                             href="/wishlist"
-                            className="text-gray-600 hover:text-red-500 transition-colors"
+                            className="text-gray-600 transition-colors duration-500"
                         >
-                            <Heart className="hover:fill-red-500 transition-all" />
+                            <Heart
+                                className="
+                                        fill-transparent
+                                        stroke-current
+                                        transition-all
+                                        duration-300
+                                        hover:fill-red-500
+                                        hover:scale-110
+                                    "
+                            />
                         </Link>
 
 
@@ -162,9 +172,9 @@ export default function Navbar() {
                     {status !== "loading" &&
                         [
                             ...navLinks,
-                            { href: "/cart", label: "CART" },
+
                             ...(isAuthenticated
-                                ? [{ href: "/wishlist", label: "WISHLIST" }]
+                                ? [{ href: "/cart", label: "CART" }, { href: "/wishlist", label: "WISHLIST" }]
                                 : []),
                         ].map(({ href, label }) => (
                             <li key={href}>

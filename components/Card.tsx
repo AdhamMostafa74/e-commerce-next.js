@@ -57,9 +57,16 @@ export default function Card({ product, category, wishlist }: productProps) {
                             rounded-full
                             shadow-md
                             font-cursive
+                            
                             "
                     >
-                        <Heart fill={`${wishlist ? 'red' : 'transparent'}`} className='bg-transparent' />
+                        <Heart fill={`${wishlist ? 'red' : 'transparent'}`} className='bg-transparent
+                                       fill-transparent
+                                        stroke-current
+                                        transition-all
+                                        duration-300
+                                        hover:fill-red-500
+                                        hover:scale-110' />
                     </button>
 
                     <Link href={`/ProductDetails/${product._id}`}>

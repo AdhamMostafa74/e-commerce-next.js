@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="font-cursive antialiased">
+      <body className="font-cursive antialiased" suppressHydrationWarning={true}>
         <QueryClientProvider client={queryClient}>
           <SessionProvider>
             <Navbar />
