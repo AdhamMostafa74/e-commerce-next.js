@@ -7,7 +7,7 @@ import Link from 'next/link'
 import React from 'react'
 import placeHolderImage from '@/assets/placeholder.webp'
 import AddToCartButton from '@/utilities/AddToCartButton'
-import { useAddWishlist } from '@/hooks/useWishlist'
+import { useAddWishlist, useRemoveWishlist } from '@/hooks/useWishlist'
 
 
 
@@ -18,7 +18,8 @@ type productProps = {
 }
 export default function Card({ product, category, wishlist }: productProps) {
 
-    const { mutate } = useAddWishlist()
+    const { mutate: addToWishlist } = useAddWishlist()
+    const { mutate: removeFromWishlist } = useRemoveWishlist()
     return (
         <div className="flex flex-wrap gap-4 justify-center mt-3">
 
@@ -48,7 +49,7 @@ export default function Card({ product, category, wishlist }: productProps) {
                     </span>
                     {/* wishlist icon */}
                     <button
-                        onClick={() => mutate(product!._id)}
+                        onClick={wishlist ? () => removeFromWishlist(product!._id) : () => addToWishlist(product!._id)}
                         className="
                             absolute top-3 right-3 z-10
                              bg-transparent 
@@ -61,7 +62,6 @@ export default function Card({ product, category, wishlist }: productProps) {
                             "
                     >
                         <Heart fill={`${wishlist ? 'red' : 'transparent'}`} className='bg-transparent
-                                       fill-transparent
                                         stroke-current
                                         transition-all
                                         duration-300
@@ -98,7 +98,7 @@ export default function Card({ product, category, wishlist }: productProps) {
                 <div>
                     {/* Price */}
                     <div className="text-center text-blue-500 font-semibold">
-                        ${product.price?.toFixed(2) || "0.00"}
+                        EGP {product.price?.toFixed(2) || "0.00"}
                     </div>
 
                     {/* Rating */}

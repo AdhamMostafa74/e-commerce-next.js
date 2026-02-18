@@ -7,6 +7,7 @@ import { X, ShoppingCart, Trash2 } from "lucide-react"
 import CartProductCard from '@/components/Cart Components/CartProductCard'
 import { useState } from "react"
 import { CgSpinner } from "react-icons/cg"
+import Link from "next/link"
 
 interface CartOverlayProps {
     isOpen: boolean
@@ -89,7 +90,7 @@ export default function CartOverlay({
                                 <CartProductCard
                                     key={item._id}
                                     item={item}
-                                    itemCount={itemCountState}
+                                    itemCount={item.count}
                                     ChangeCount={ChangeCount}
                                     removeCartItem={removeCartItem}
                                     productId={productId}
@@ -118,12 +119,13 @@ export default function CartOverlay({
                             <div className="flex justify-between font-medium text-md">
                                 <span>Total</span>
                                 <span>
-                                    ${cart?.data.totalCartPrice.toFixed(2) ?? "0.00"}
+                                    EGP {cart?.data.totalCartPrice.toFixed(2) ?? "0.00"}
                                 </span>
                             </div>
 
                             {/* Checkout */}
-                            <button
+                            <Link
+                                href={'/checkout'}
                                 className="
               w-full flex items-center justify-center gap-2
               bg-blue-500 hover:bg-blue-300
@@ -134,7 +136,7 @@ export default function CartOverlay({
                             >
                                 <ShoppingCart className="w-5 h-5" />
                                 Checkout
-                            </button>
+                            </Link>
                         </div>
                     </aside>
                 </div>

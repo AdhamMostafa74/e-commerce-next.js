@@ -39,7 +39,7 @@ export default function CartProductCard({
                         ? item.product.title.slice(0, 30) + '...'
                         : item.product.title}
                 </h3>
-                <p className="text-md text-gray-500">${item.price.toFixed(2)}</p>
+                <p className="text-md text-gray-500">EGP {item.price.toFixed(2)}</p>
                 <div className="flex items-center gap-2 mt-2">
                     <button
                         onClick={() => ChangeCount(item.product._id, itemCount - 1)}

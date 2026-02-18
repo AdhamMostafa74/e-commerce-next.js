@@ -77,7 +77,7 @@ export default function Sidebar({
 
                     <div className="space-y-1">
                         <span className="text-sm text-gray-600">
-                            Min Price: ${minPrice}
+                            Min Price: EGP {minPrice}
                         </span>
                         <input
                             type="range"
@@ -91,7 +91,7 @@ export default function Sidebar({
 
                     <div className="space-y-1">
                         <span className="text-sm text-gray-600">
-                            Max Price: ${maxPrice}
+                            Max Price: EGP {maxPrice}
                         </span>
                         <input
                             type="range"
