@@ -21,29 +21,12 @@ export default function ProductTabs({
     const [activeTab, setActiveTab] = useState<'description' | 'reviews'>('description')
     const [reviewsLoaded, setReviewsLoaded] = useState(false)
 
-    const startX = useRef<number | null>(null)
 
-    /* Swipe gestures */
-    const onTouchStart = (e: React.TouchEvent) => {
-        startX.current = e.touches[0].clientX
-    }
-
-    const onTouchEnd = (e: React.TouchEvent) => {
-        if (startX.current === null) return
-
-        const diff = startX.current - e.changedTouches[0].clientX
-
-        if (diff > 50) setActiveTab('reviews')
-        if (diff < -50) setActiveTab('description')
-
-        startX.current = null
-    }
 
     return (
         <div
             className="w-full border-t mt-6"
-            onTouchStart={onTouchStart}
-            onTouchEnd={onTouchEnd}
+
         >
             {/* 🧭 Tabs Header */}
             <div className="relative border-b flex">

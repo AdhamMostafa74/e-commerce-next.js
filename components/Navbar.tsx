@@ -178,14 +178,26 @@ export default function Navbar() {
                                 : []),
                         ].map(({ href, label }) => (
                             <li key={href}>
-                                <Link
+                                {label === 'CART' ? <button
+                                    onClick={() => setCartOpen(true)}
+                                    className={`relative text-gray-600 hover:text-blue-500 `}
+                                >
+                                    <span>CART</span>
+                                    <span className="absolute -top-2 -right-3 min-w-4 h-4 bg-blue-500 text-white text-xs rounded-full flex items-center justify-center">
+                                        {data?.numOfCartItems !== undefined ? (
+                                            data.numOfCartItems
+                                        ) : (
+                                            <FaSpinner className="w-3 h-3 animate-spin" />
+                                        )}
+                                    </span>
+                                </button> : <Link
                                     href={href}
                                     onClick={() => setOpen(false)}
                                     className={linkClass(href)}
                                 >
                                     {label}
                                     <ActiveBar active={isActive(href)} />
-                                </Link>
+                                </Link>}
                             </li>
                         ))}
 

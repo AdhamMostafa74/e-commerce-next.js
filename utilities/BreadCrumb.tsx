@@ -18,7 +18,7 @@ export default function ProductBreadcrumb({
         <nav className="flex items-center text-2xl text-gray-600 flex-wrap py-8 border-b-2  ps-12">
             {/* Category */}
             <Link
-                href={`/category/${category?.name}`}
+                href={`/Category/${category?._id}`}
                 className="hover:text-blue-500 transition-colors"
             >
                 {category?.name}
@@ -28,7 +28,7 @@ export default function ProductBreadcrumb({
 
             {/* Brand */}
             <Link
-                href={`/brand/${brand?.name}`}
+                href={`/Brands/${brand?._id}`}
                 className="hover:text-blue-500 transition-colors"
             >
                 {brand?.name}

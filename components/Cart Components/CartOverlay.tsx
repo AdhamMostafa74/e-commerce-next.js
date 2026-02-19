@@ -8,6 +8,7 @@ import CartProductCard from '@/components/Cart Components/CartProductCard'
 import { useState } from "react"
 import { CgSpinner } from "react-icons/cg"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 interface CartOverlayProps {
     isOpen: boolean
@@ -31,6 +32,13 @@ export default function CartOverlay({
     const { mutate: clearCart, isPending: pendingClearCart } = useClearCart()
     const { mutate: changeItemQuantity } = useChangeItemQuantity()
 
+    const router = useRouter()
+
+    function handleCheckOut() {
+        onClose()
+        router.push('/checkout')
+        console.log(cart?.numOfCartItems)
+    }
 
 
     function removeCartItem(productId: string) {
@@ -124,19 +132,15 @@ export default function CartOverlay({
                             </div>
 
                             {/* Checkout */}
-                            <Link
-                                href={'/checkout'}
-                                className="
-              w-full flex items-center justify-center gap-2
-              bg-blue-500 hover:bg-blue-300
-              text-white py-3 rounded-md
-              transition-all duration-200
-              hover:scale-[1.02]
-            "
-                            >
+                            <button
+                                onClick={handleCheckOut}
+                                disabled={cart?.numOfCartItems === 0}
+                                className={`w-full flex items-center justify-center gap-2
+                                 bg-blue-500 hover:bg-blue-300 disabled:bg-blue-300
+                                 text-white py-3 rounded-mdtransition-all duration-200hover:scale-[1.02]`}>
                                 <ShoppingCart className="w-5 h-5" />
                                 Checkout
-                            </Link>
+                            </button>
                         </div>
                     </aside>
                 </div>
