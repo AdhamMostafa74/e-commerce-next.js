@@ -101,7 +101,7 @@ export function useRemoveWishlist() {
             })
         },
         onError: () => {
-            toast.error('An error occurred!')
+            toast.error('Please Login First!')
 
         },
 

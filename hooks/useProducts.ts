@@ -42,7 +42,6 @@ export function useProducts2(catId?: string) {
 
             if (catId) {
                 url.searchParams.append("category[in]", catId)
-                console.log(url.href)
             }
 
             const res = await fetch(url.toString(), {

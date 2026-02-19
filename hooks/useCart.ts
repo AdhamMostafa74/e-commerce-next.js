@@ -3,21 +3,24 @@
 import { Cart } from "@/types/cart"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import toast from "react-hot-toast"
-import { baseUrl, token } from "./api"
+import { baseUrl } from "./api"
+import { useSession } from "next-auth/react"
 
 
 
 export function useAddToCard() {
     const queryClient = useQueryClient()
+    const { data } = useSession()
 
     const query = useMutation({
+
         mutationKey: ["addToCart"],
         mutationFn: async (prodId: string) => {
             const res = await fetch(baseUrl + "cart", {
                 method: 'post',
                 headers: {
                     "Content-Type": "application/json",
-                    token: token
+                    token: data!.accessToken
                 },
                 body: JSON.stringify({ productId: prodId })
             })
@@ -44,6 +47,7 @@ export function useAddToCard() {
 
 
 export function useGetCart() {
+    const { data } = useSession()
 
     const query = useQuery<Cart>({
         queryKey: ["getCart"],
@@ -51,7 +55,7 @@ export function useGetCart() {
             const res = await fetch(baseUrl + "cart", {
                 method: 'get',
                 headers: {
-                    token: token
+                    token: data!.accessToken
                 },
             })
 
@@ -69,6 +73,7 @@ export function useGetCart() {
 
 export function useRemoveCartItem(prodId: string) {
     const queryClient = useQueryClient()
+    const { data } = useSession()
 
     const query = useMutation<Cart>({
         mutationKey: ["removeCartItem"],
@@ -76,7 +81,7 @@ export function useRemoveCartItem(prodId: string) {
             const res = await fetch(baseUrl + "cart/" + prodId, {
                 method: 'delete',
                 headers: {
-                    token: token
+                    token: data!.accessToken
                 },
             })
 
@@ -104,6 +109,7 @@ export function useRemoveCartItem(prodId: string) {
 
 export function useClearCart() {
     const queryClient = useQueryClient()
+    const { data } = useSession()
 
     const query = useMutation({
         mutationKey: ["clearCart"],
@@ -111,7 +117,7 @@ export function useClearCart() {
             const res = await fetch(baseUrl + "cart", {
                 method: "delete",
                 headers: {
-                    token: token
+                    token: data!.accessToken
                 }
             })
             if (!res.ok) {
@@ -137,6 +143,7 @@ export function useClearCart() {
 
 export function useChangeItemQuantity() {
     const queryClient = useQueryClient()
+    const { data } = useSession()
 
     return useMutation({
         mutationKey: ["changeItemQuantity"],
@@ -146,7 +153,7 @@ export function useChangeItemQuantity() {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
-                    token: token
+                    token: data!.accessToken
 
                 },
                 body: JSON.stringify({ count: itemCount }),
