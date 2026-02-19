@@ -75,3 +75,18 @@ export async function resetPassword(passwordData: rePasswordForm) {
 
     return data;
 }
+
+
+export async function verifyUser(token: string) {
+
+    const res = await fetch(baseUrl + 'auth/verifyToken', {
+        headers: {
+            token: token
+        }
+    })
+    if (!res.ok) {
+        throw new Error("An error occurred!")
+    }
+    return res.json()
+
+}

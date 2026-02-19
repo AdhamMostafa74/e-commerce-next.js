@@ -19,6 +19,10 @@ const nextConfig: NextConfig = {
         source: "/",
         destination: "/home",
         permanent: true,
+      }, {
+        source: "/allorders",
+        destination: "/home",
+        permanent: true,
       },
     ]
   },

@@ -7,7 +7,6 @@ import { X, ShoppingCart, Trash2 } from "lucide-react"
 import CartProductCard from '@/components/Cart Components/CartProductCard'
 import { useState } from "react"
 import { CgSpinner } from "react-icons/cg"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
 
 interface CartOverlayProps {

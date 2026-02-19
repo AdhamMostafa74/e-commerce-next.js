@@ -1,7 +1,7 @@
-import { login } from "@/services/auth";
+import { login } from "@/services/auth"
 import NextAuth from "next-auth"
-import CredentialsProvider from "next-auth/providers/credentials";
-
+import CredentialsProvider from "next-auth/providers/credentials"
+import { jwtDecode } from "jwt-decode"
 
 const handler = NextAuth({
     providers: [
@@ -9,60 +9,67 @@ const handler = NextAuth({
             name: "Credentials",
 
             credentials: {
-                email: { label: "Email", type: "text", placeholder: "YourEmail@example.com" },
-                password: { label: "Password", type: "password" }
+                email: { label: "Email", type: "text" },
+                password: { label: "Password", type: "password" },
             },
+
             async authorize(credentials) {
-                console.log("CREDENTIALS:", credentials);
-
-                const response = await login(credentials?.email ?? '', credentials?.password ?? '');
-
-                console.log("BACKEND RESPONSE:", response);
-
-                if (response.message == 'success') {
-                    console.log("LOGIN SUCCESS");
-                    const user = {
-                        id: response.user.email,
-                        name: response.user.name,
-                        email: response.user.email,
-                        role: response.user.role,
-                        token: response.token
-                    }
-                    return user;
-                } else {
-                    console.log("LOGIN FAILED");
+                if (!credentials?.email || !credentials?.password) {
                     return null
                 }
-            }
-        })
+
+                const response = await login(
+                    credentials.email,
+                    credentials.password
+                )
+
+                if (response.message !== "success") {
+                    return null
+                }
+
+                // 🔥 DECODE JWT TO GET USER ID
+                const decoded: any = jwtDecode(response.token)
+                // decoded = { id, name, role, iat, exp }
+
+                return {
+                    id: decoded.id,              // ✅ REAL USER ID
+                    name: decoded.name,
+                    email: response.user.email,
+                    role: decoded.role,
+                    token: response.token,
+                }
+            },
+        }),
     ],
+
     pages: {
         signIn: "/auth/login",
-        newUser: "/auth/register"
+        newUser: "/auth/register",
     },
+
+    session: {
+        strategy: "jwt",
+    },
+
     callbacks: {
-        async session({ session, token }) {
-            session.user.role = token.role as string
-            session.accessToken = token.accessToken as string
-
-            return session
-
+        async jwt({ token, user }) {
+            if (user) {
+                token.id = user.id
+                token.role = user.role
+                token.accessToken = user.token
+            }
+            return token
         },
 
-        async jwt({ user, token }) {
-            if (user) {
-                token.accessToken = user.token;
-                token.role = user.role;
-            }
-
-            return token
-        }
-
+        async session({ session, token }) {
+            session.user.id = token.id as string
+            session.user.role = token.role as string
+            session.accessToken = token.accessToken as string
+            return session
+        },
     },
+
     secret: process.env.AUTH_SECRET,
-    session: {
-        strategy: "jwt"
-    }
 })
 
 export { handler as GET, handler as POST }

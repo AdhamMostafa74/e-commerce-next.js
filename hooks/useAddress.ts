@@ -1,24 +1,26 @@
 'use client'
 
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useSession } from "next-auth/react"
 import { baseUrl } from "./api"
 import toast from "react-hot-toast"
 import { CheckoutFormData } from "@/app/checkout/page"
-type cashPayment = {
+import { Addresses } from "@/types/address"
+type UserAddress = {
     formData: CheckoutFormData,
-    cartId: string | undefined
+    name: string | undefined
 }
 
-export function useCashPayment() {
+
+export function useAddAddress() {
     const queryClint = useQueryClient()
 
     const { data } = useSession()
 
     const query = useMutation({
-        mutationFn: async ({ formData, cartId }: cashPayment) => {
+        mutationFn: async ({ formData }: UserAddress) => {
 
-            const res = await fetch(baseUrl + "orders/" + cartId, {
+            const res = await fetch(baseUrl + 'addresses', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
@@ -36,9 +38,9 @@ export function useCashPayment() {
         },
         onSuccess: () => {
             queryClint.invalidateQueries({
-                queryKey: ["getCart"]
+                queryKey: ["getAddresses"]
             })
-            toast.success('Order Created Successfully!', { duration: 3000 })
+            toast.success('Address Added Successfully!', { duration: 3000 })
 
         },
         onError: () => {
@@ -50,23 +52,19 @@ export function useCashPayment() {
 
     return query
 }
-export function useOnlinePayment() {
+export function useRemoveAddress() {
     const queryClint = useQueryClient()
 
     const { data } = useSession()
 
     const query = useMutation({
-        mutationFn: async ({ formData, cartId }: cashPayment) => {
+        mutationFn: async (addressId: string) => {
 
-            const res = await fetch(baseUrl + "orders/checkout-session/" + cartId + '/?url=http://localhost:3000', {
-                method: 'POST',
-
+            const res = await fetch(baseUrl + 'addresses/' + addressId, {
+                method: 'DELETE',
                 headers: {
-                    "Content-Type": "application/json",
-                    token: data!.accessToken,
-
+                    token: data!.accessToken
                 },
-                body: JSON.stringify(formData)
 
             })
 
@@ -76,13 +74,11 @@ export function useOnlinePayment() {
 
             return res.json()
         },
-        onSuccess: (responseData) => {
+        onSuccess: () => {
             queryClint.invalidateQueries({
-                queryKey: ["getCart"]
+                queryKey: ["getAddresses"]
             })
-            toast.success('Order Created Successfully!', { duration: 3000 })
-            location.href = responseData.session.url
-
+            toast.success('Address Removed Successfully!', { duration: 3000 })
 
         },
         onError: () => {
@@ -95,3 +91,26 @@ export function useOnlinePayment() {
     return query
 }
 
+
+
+export function useUserAddress() {
+
+    const { data } = useSession()
+
+    const query = useQuery<Addresses>({
+        queryKey: ['getAddresses'],
+        queryFn: async () => {
+            const res = await fetch(baseUrl + 'addresses', {
+                headers: {
+                    token: data!.accessToken
+                },
+            })
+            if (!res.ok) {
+                throw new Error("An error occurred!")
+            }
+            return res.json()
+        }
+    })
+
+    return query
+}

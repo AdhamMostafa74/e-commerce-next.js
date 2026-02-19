@@ -17,8 +17,9 @@ import {
 } from "@/components/ui/form"
 import { useGetCart } from "@/hooks/useCart"
 import { useState } from "react"
-import { useCashPayment } from "@/hooks/useCheckout"
+import { useCashPayment, useOnlinePayment } from "@/hooks/useCheckout"
 import { useRouter } from "next/navigation"
+import { useAddAddress } from "@/hooks/useAddress"
 
 
 
@@ -35,7 +36,7 @@ export type CheckoutFormData = z.infer<typeof checkoutSchema>
 export default function Checkout() {
     const [PaymentMethod, setpaymentMethod] = useState<'cash' | 'online'>('cash')
 
-    const { data: cartData, isLoading } = useGetCart()
+    const { data: cartData } = useGetCart()
     const router = useRouter()
 
     const form = useForm<CheckoutFormData>({
@@ -48,14 +49,21 @@ export default function Checkout() {
         },
     })
 
-    const { mutate: cashPayment, isPending: pendingCash } = useCashPayment()
+    const { mutate: cashPayment } = useCashPayment()
+    const { mutate: onlinePayment, data: responseData } = useOnlinePayment()
+    const { mutate: addAddress } = useAddAddress()
 
     const onSubmit = (data: CheckoutFormData) => {
         if (PaymentMethod === 'cash') {
             cashPayment({ cartId: cartData?.cartId, formData: data })
+            addAddress({ name: 'Home', formData: data })
             setTimeout(() => {
                 router.push("/home")
             }, 2000);
+        } else {
+            onlinePayment({ cartId: cartData?.cartId, formData: data })
+            addAddress({ name: 'Home', formData: data })
+            console.log(responseData)
         }
     }
 

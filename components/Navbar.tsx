@@ -34,9 +34,7 @@ export default function Navbar() {
     const [logoutOpen, setLogoutOpen] = useState(false)
 
     const { data, refetch } = useGetCart()
-    const { status, data: userData } = useSession()
-
-    console.log(status)
+    const { status, data: userInfo } = useSession()
 
     const isAuthenticated = status === "authenticated"
 
@@ -53,7 +51,7 @@ export default function Navbar() {
         { href: "/home", label: "HOME" },
         { href: "/products", label: "PRODUCTS" },
         isAuthenticated
-            ? { href: "/profile", label: "PROFILE" }
+            ? { href: `/profile/${userInfo?.user.id}`, label: "PROFILE" }
             : { href: "/api/auth/signin", label: "LOGIN" },
     ]
 
@@ -130,7 +128,7 @@ export default function Navbar() {
 
                         <button
                             onClick={() => setLogoutOpen(true)}
-                            className="text-gray-600 hover:text-red-600 transition-colors"
+                            className="text-gray-600 hover:text-red-600 transition-colors cursor-pointer"
                             title="Logout"
                         >
                             <LogOut />
@@ -180,7 +178,7 @@ export default function Navbar() {
                             <li key={href}>
                                 {label === 'CART' ? <button
                                     onClick={() => setCartOpen(true)}
-                                    className={`relative text-gray-600 hover:text-blue-500 `}
+                                    className={`relative text-gray-600 hover:text-blue-500  cursor-pointer`}
                                 >
                                     <span>CART</span>
                                     <span className="absolute -top-2 -right-3 min-w-4 h-4 bg-blue-500 text-white text-xs rounded-full flex items-center justify-center">
@@ -206,7 +204,7 @@ export default function Navbar() {
                         <li>
                             <button
                                 onClick={() => setLogoutOpen(true)}
-                                className="text-red-600 font-medium"
+                                className="text-red-600 font-medium cursor-pointer"
                             >
                                 LOGOUT
                             </button>

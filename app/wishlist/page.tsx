@@ -14,7 +14,7 @@ export default function Wishlist() {
 
 
     return (
-        <div className={`flex justify-center sm:flex-row ${data.data.length == 0 && 'h-[40vh]'}`}>
+        <div className={`flex justify-center sm:flex-row ${data?.data.length == 0 && 'h-[40vh]'}`}>
 
 
 
