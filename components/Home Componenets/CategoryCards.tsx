@@ -75,7 +75,7 @@ export default function CategoriesCarousel() {
     ======================== */
     const startAutoPlay = () => {
         stopAutoPlay()
-        intervalRef.current = setInterval(next, 3000)
+        intervalRef.current = setInterval(next, 2000)
     }
 
     const stopAutoPlay = () => {
@@ -122,14 +122,14 @@ export default function CategoriesCarousel() {
     ======================== */
     return (
         <div
-            className="relative my-6 md:w-xl lg:w-3xl xl:w-5xl mx-auto"
+            className="relative w-3/4 my-6 md:w-xl lg:w-3xl xl:w-5xl mx-auto"
             onMouseEnter={stopAutoPlay}
             onMouseLeave={startAutoPlay}
         >
             {/* Left Arrow (hidden on mobile) */}
             <button
                 onClick={prev}
-                className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10
+                className=" md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10
                            bg-white shadow rounded-full w-10 h-10
                            items-center justify-center"
             >
@@ -160,7 +160,7 @@ export default function CategoriesCarousel() {
             {/* Right Arrow */}
             <button
                 onClick={next}
-                className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10
+                className=" md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10
                            bg-white shadow rounded-full w-10 h-10
                            items-center justify-center"
             >

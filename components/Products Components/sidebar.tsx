@@ -23,45 +23,68 @@ export default function Sidebar({
 
     return (
         <>
-            {/* 🧲 Filter Button (ALL sizes) */}
+            {/* ⚪ Default Filters Button (md and up) */}
             <button
                 onClick={() => setOpen(true)}
                 className="
-          flex items-center gap-2
-          bg-white text-gray-700
-          px-4 py-2
-          rounded-lg
-          shadow
-          border
-         hover:bg-slate-300 
-          cursor-pointer
-          transition
-        "
+                    hidden md:flex
+                    items-center gap-2
+                    bg-white text-gray-700
+                    px-4 py-2
+                    rounded-lg
+                    shadow
+                    border
+                    hover:bg-slate-300
+                    transition
+                "
             >
                 <SlidersHorizontal size={18} />
-                <span className="text-sm font-medium ">Filters</span>
+                <span className="text-sm font-medium">Filters</span>
             </button>
+
+            {/* 🟢 Floating Filter Button (small & mobile only) */}
+            {!open && (
+                <button
+                    onClick={() => setOpen(true)}
+                    className="
+                        flex md:hidden
+                        fixed bottom-6 left-6
+                        z-40
+                        items-center justify-center
+                        w-14 h-14
+                        rounded-full
+                        bg-blue-600
+                        text-white
+                        shadow-lg
+                        hover:bg-blue-700
+                        transition
+                    "
+                    aria-label="Open filters"
+                >
+                    <SlidersHorizontal size={22} />
+                </button>
+            )}
 
             {/* 🧱 Sidebar Drawer */}
             <aside
                 className={`
-          fixed
-          top-0 left-0
-          h-full
-          w-80
-          bg-slate-200
-          p-4
-          border-r
-          space-y-6
-          z-50
-          transform
-          transition-transform
-          duration-300
-          ${open ? "translate-x-0" : "-translate-x-full"}
-        `}
+                    fixed
+                    top-0 left-0
+                    h-full
+                    w-80
+                    bg-slate-200
+                    p-4
+                    border-r
+                    space-y-6
+                    z-50
+                    transform
+                    transition-transform
+                    duration-300
+                    ${open ? "translate-x-0" : "-translate-x-full"}
+                `}
             >
                 {/* ❌ Close */}
-                <div className="flex justify-between items-center ">
+                <div className="flex justify-between items-center">
                     <span className="font-semibold text-lg">Filters</span>
                     <button
                         onClick={() => setOpen(false)}
@@ -71,7 +94,7 @@ export default function Sidebar({
                     </button>
                 </div>
 
-                {/* Filter by Price */}
+                {/* 💰 Filter by Price */}
                 <div className="space-y-4">
                     <span className="font-semibold text-lg">Filter by price</span>
 
@@ -104,7 +127,7 @@ export default function Sidebar({
                     </div>
                 </div>
 
-                {/* Categories */}
+                {/* 📦 Categories */}
                 <div className="space-y-2">
                     <div className="font-semibold text-lg border-b pb-2 border-gray-600">
                         Categories
@@ -123,11 +146,11 @@ export default function Sidebar({
                 </div>
             </aside>
 
-            {/* 🌫 Overlay */}
+            {/* 🌫 Overlay (small & mobile only) */}
             {open && (
                 <div
                     onClick={() => setOpen(false)}
-                    className="fixed inset-0 bg-black/40 z-40"
+                    className="fixed inset-0 bg-black/40 z-40 md:hidden"
                 />
             )}
         </>

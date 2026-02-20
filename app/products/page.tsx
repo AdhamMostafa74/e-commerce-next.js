@@ -28,7 +28,7 @@ export default function Products() {
 
             {/* Sidebar */}
 
-            <div className='p-6'>
+            <div className='md:p-6'>
                 <Sidebar
                     minPrice={minPrice}
                     maxPrice={maxPrice}
@@ -41,7 +41,7 @@ export default function Products() {
 
             <div className="
                        bg-slate-200 m-6 rounded-t-2xl
-                      grid grid-cols-3  sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 
+                      grid grid-cols-1  sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 
                       gap-6 p-10">
                 {isLoading ? (
                     <div>Loading...</div>

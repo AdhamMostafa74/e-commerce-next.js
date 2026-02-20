@@ -31,7 +31,7 @@ export default function Card({ product, category, wishlist }: productProps) {
                      transform transition-transform duration-200 hover:scale-105 cursor-pointer"
             >
                 {/* Image */}
-                <div className="relative w-full h-48 lg:h-64 md:h-48 sm:h-48 rounded-xl pb-3 border-b">
+                <div className="relative w-full h-64 lg:h-64 md:h-48 sm:h-48 rounded-xl pb-3 border-b">
 
                     {/* 🏷 Brand Banner */}
                     <span
@@ -136,7 +136,7 @@ export default function Card({ product, category, wishlist }: productProps) {
                transform transition-transform duration-200 hover:scale-105 cursor-pointer"
                 >
                     {/* Image */}
-                    <div className="relative w-full h-40 sm:h-48 md:h-48 lg:h-64 rounded-xl border-b">
+                    <div className="relative w-full h-64 sm:h-48 md:h-48 lg:h-64 rounded-xl border-b">
                         <Link href={`Category/${category?._id}`}>
                             <Image
                                 src={category?.image || placeHolderImage}
