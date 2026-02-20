@@ -22,7 +22,7 @@ export function CarouselComponent() {
     ]
 
     return (
-        <Carousel className="hidden container w-7/12 lg:w-7/12 mx-auto">
+        <Carousel className="hidden md:flex container w-7/12 lg:w-7/12 mx-auto">
             <CarouselContent>
                 {carouselImages.map((_, index) => (
                     <CarouselItem className="lg:basis-xl basis-md mt-1" key={index}>

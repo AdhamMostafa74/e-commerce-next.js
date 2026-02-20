@@ -92,19 +92,21 @@ export default function ProductTabs({
                             : isLoading
                                 ? <ReviewsSkeleton />
                                 : reviews.map((review) => (
-                                    <div key={review._id} className="flex flex-col gap-2 p-3">
+                                    <div key={review._id} className="flex justify-between  flex-col gap-2 p-3">
 
-                                        <div className="w-1/2 flex justify-start items-center gap-1 mt-2">
+                                        <div className="w-full xl:w-1/2 flex justify-between items-center gap-1 mt-2">
                                             <span className="text-2xl italic pe-6">{review.user.name}</span>
 
-                                            {Array.from({ length: 5 }).map((_, i) => (
-                                                <Star
-                                                    key={i}
-                                                    size={24}
-                                                    fill={i < Math.round(review.rating || 0) ? "#F59E0B" : "none"} // gold or empty
-                                                    stroke={i < Math.round(review.rating || 0) ? "#F59E0B" : "#D1D5DB"} // stroke color
-                                                />
-                                            ))}
+                                            <div className="flex">
+                                                {Array.from({ length: 5 }).map((_, i) => (
+                                                    <Star
+                                                        key={i}
+                                                        size={24}
+                                                        fill={i < Math.round(review.rating || 0) ? "#F59E0B" : "none"} // gold or empty
+                                                        stroke={i < Math.round(review.rating || 0) ? "#F59E0B" : "#D1D5DB"} // stroke color
+                                                    />
+                                                ))}
+                                            </div>
 
                                         </div>
 

@@ -20,8 +20,15 @@ export default function CategoriesCarousel() {
     const [cardWidth, setCardWidth] = useState(260)
     const [index, setIndex] = useState(4)
     const [transition, setTransition] = useState(true)
-
+    const [dragOffset, setDragOffset] = useState(0)
     const intervalRef = useRef<NodeJS.Timeout | null>(null)
+
+    /* =======================
+       Drag state
+    ======================== */
+    const isDragging = useRef(false)
+    const startX = useRef(0)
+    const currentTranslate = useRef(0)
 
     /* =======================
        Responsive logic
@@ -29,15 +36,12 @@ export default function CategoriesCarousel() {
     useEffect(() => {
         const update = () => {
             if (window.innerWidth < 768) {
-                // mobile
                 setVisibleCount(1)
                 setCardWidth(220)
             } else if (window.innerWidth < 1024) {
-                // md
                 setVisibleCount(3)
                 setCardWidth(240)
             } else {
-                // lg
                 setVisibleCount(4)
                 setCardWidth(260)
             }
@@ -112,6 +116,37 @@ export default function CategoriesCarousel() {
     }, [index, categories.length, visibleCount])
 
     /* =======================
+       Drag handlers (shadcn-like)
+    ======================== */
+    const onPointerDown = (e: React.PointerEvent) => {
+        isDragging.current = true
+        startX.current = e.clientX
+        setDragOffset(0)
+        setTransition(false)
+        stopAutoPlay()
+    }
+
+    const onPointerMove = (e: React.PointerEvent) => {
+        if (!isDragging.current) return
+        setDragOffset(e.clientX - startX.current)
+    }
+
+    const onPointerUp = () => {
+        if (!isDragging.current) return
+
+        isDragging.current = false
+        setTransition(true)
+
+        const movedCards = Math.round(dragOffset / cardWidth)
+
+        if (movedCards !== 0) {
+            setIndex((i) => i - movedCards)
+        }
+
+        setDragOffset(0)
+        startAutoPlay()
+    }
+    /* =======================
        Loading / Error
     ======================== */
     if (isLoading) return <CategoriesSkeletonCarousel />
@@ -122,14 +157,14 @@ export default function CategoriesCarousel() {
     ======================== */
     return (
         <div
-            className="relative w-3/4 my-6 md:w-xl lg:w-3xl xl:w-5xl mx-auto"
+            className="relative  w-3/4 my-6 md:w-xl lg:w-3xl xl:w-5xl mx-auto"
             onMouseEnter={stopAutoPlay}
             onMouseLeave={startAutoPlay}
         >
-            {/* Left Arrow (hidden on mobile) */}
+            {/* Left Arrow */}
             <button
                 onClick={prev}
-                className=" md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10
+                className=" md:flex absolute -left-12 top-1/2 -translate-y-1/2 z-10
                            bg-white shadow rounded-full w-10 h-10
                            items-center justify-center"
             >
@@ -137,18 +172,23 @@ export default function CategoriesCarousel() {
             </button>
 
             {/* Carousel */}
-            <div className="overflow-hidden py-5 px-4 sm:px-8 lg:px-4">
+            <div
+                className="overflow-hidden py-5 px-4 sm:px-8 lg:px-4 cursor-grab active:cursor-grabbing"
+                onPointerDown={onPointerDown}
+                onPointerMove={onPointerMove}
+                onPointerUp={onPointerUp}
+                onPointerLeave={onPointerUp}
+            >
                 <div
-                    className={`flex gap-2 ${transition ? "transition-transform duration-300" : ""
-                        }`}
+                    className={`flex gap-2 ${transition ? "transition-transform duration-300" : ""}`}
                     style={{
-                        transform: `translateX(-${index * cardWidth}px)`,
+                        transform: `translateX(-${index * cardWidth - dragOffset}px)`,
                     }}
                 >
                     {extended.map((cat, i) => (
                         <div
                             key={`${cat._id}-${i}`}
-                            className="shrink-0"
+                            className="shrink-0 select-none"
                             style={{ width: `${cardWidth}px` }}
                         >
                             <Card category={cat} />
@@ -160,7 +200,7 @@ export default function CategoriesCarousel() {
             {/* Right Arrow */}
             <button
                 onClick={next}
-                className=" md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10
+                className=" md:flex absolute -right-12 top-1/2 -translate-y-1/2 z-10
                            bg-white shadow rounded-full w-10 h-10
                            items-center justify-center"
             >
@@ -173,9 +213,7 @@ export default function CategoriesCarousel() {
                     <button
                         key={i}
                         onClick={() => setIndex(i + visibleCount)}
-                        className={`w-2 h-2 rounded-full ${index - visibleCount === i
-                            ? "bg-black"
-                            : "bg-gray-300"
+                        className={`w-2 h-2 rounded-full ${index - visibleCount === i ? "bg-black" : "bg-gray-300"
                             }`}
                     />
                 ))}

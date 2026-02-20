@@ -36,14 +36,14 @@ export default function QuantityCounter({
     const outOfStock = stock <= 0
 
     return (
-        <div className="flex items-center gap-6">
+        <div className="flex md:flex-row md:justify-start items-center text-center   gap-1 md:gap-6 ">
             {/* Label */}
             <span className="font-semibold text-lg text-gray-800">
                 Quantity
             </span>
 
             {/* Counter */}
-            <div className="flex items-center border-2 rounded-xl overflow-hidden">
+            <div className="flex w-fit items-center border-2 rounded-xl overflow-hidden">
                 {/* − */}
                 <button
                     onClick={decrease}

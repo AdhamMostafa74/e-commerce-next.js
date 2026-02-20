@@ -54,7 +54,7 @@ export default function RegisterForm({ callbackUrl }: { callbackUrl: string }) {
     };
     return (
         <div className="min-h-screen flex items-center justify-center bg-slate-100">
-            <Card className="w-full max-w-2xl p-8 bg-slate-200 shadow-md rounded-xl">
+            <Card className="w-full m-12 max-w-2xl p-8 bg-slate-200 shadow-md rounded-xl">
                 <CardHeader>
                     <CardTitle className="text-center text-2xl sm:text-3xl">
                         Register
