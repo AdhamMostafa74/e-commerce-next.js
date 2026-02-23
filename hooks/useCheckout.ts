@@ -2,7 +2,7 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useSession } from "next-auth/react"
-import { baseUrl } from "./api"
+import { baseUrl, redirectUrl } from "./api"
 import toast from "react-hot-toast"
 import { CheckoutFormData } from "@/app/checkout/page"
 type cashPayment = {
@@ -58,7 +58,7 @@ export function useOnlinePayment() {
     const query = useMutation({
         mutationFn: async ({ formData, cartId }: cashPayment) => {
 
-            const res = await fetch(baseUrl + "orders/checkout-session/" + cartId + '/?url=http://localhost:3000', {
+            const res = await fetch(baseUrl + "orders/checkout-session/" + cartId + redirectUrl, {
                 method: 'POST',
 
                 headers: {
