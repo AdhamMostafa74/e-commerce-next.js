@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useCategories } from "@/hooks/useCategories"
 import { Category } from "@/types/Product"
 import { SlidersHorizontal } from "lucide-react"
+import Link from "next/link"
 
 type SidebarProps = {
     minPrice: number
@@ -23,7 +24,7 @@ export default function Sidebar({
 
     return (
         <>
-            {/* ⚪ Default Filters Button (md and up) */}
+            {/* filter */}
             <button
                 onClick={() => setOpen(true)}
                 className="
@@ -42,7 +43,7 @@ export default function Sidebar({
                 <span className="text-sm font-medium">Filters</span>
             </button>
 
-            {/* 🟢 Floating Filter Button (small & mobile only) */}
+            {/*mobile floating filter */}
             {!open && (
                 <button
                     onClick={() => setOpen(true)}
@@ -65,7 +66,7 @@ export default function Sidebar({
                 </button>
             )}
 
-            {/* 🧱 Sidebar Drawer */}
+            {/* Sidebar Drawer */}
             <aside
                 className={`
                     fixed
@@ -83,7 +84,7 @@ export default function Sidebar({
                     ${open ? "translate-x-0" : "-translate-x-full"}
                 `}
             >
-                {/* ❌ Close */}
+                {/* Close */}
                 <div className="flex justify-between items-center">
                     <span className="font-semibold text-lg">Filters</span>
                     <button
@@ -94,7 +95,7 @@ export default function Sidebar({
                     </button>
                 </div>
 
-                {/* 💰 Filter by Price */}
+                {/* Filter by Price */}
                 <div className="space-y-4">
                     <span className="font-semibold text-lg">Filter by price</span>
 
@@ -127,26 +128,29 @@ export default function Sidebar({
                     </div>
                 </div>
 
-                {/* 📦 Categories */}
+                {/* Categories */}
                 <div className="space-y-2">
                     <div className="font-semibold text-lg border-b pb-2 border-gray-600">
                         Categories
                     </div>
-                    <ul className="space-y-1">
-                        {data?.data?.map((category: Category) => (
-                            <li
+
+                    {data?.data?.map((category: Category) => (
+                        <div key={category._id}>
+                            <Link
+                                href={`/Category/${category._id}`}
                                 key={category._id}
                                 className="cursor-pointer text-gray-700 hover:text-blue-500"
                                 onClick={() => setOpen(false)}
                             >
                                 {category.name}
-                            </li>
-                        ))}
-                    </ul>
+                            </Link>
+                        </div>
+                    ))}
+
                 </div>
             </aside>
 
-            {/* 🌫 Overlay (small & mobile only) */}
+            {/* Overlay (small & mobile only) */}
             {open && (
                 <div
                     onClick={() => setOpen(false)}

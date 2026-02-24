@@ -23,7 +23,7 @@ export default function LoadingScreen() {
 
     return (
         <>
-            {/* 🔥 Animations (GLOBAL, NOT PURGED) */}
+            {/*  Animations (GLOBAL, NOT PURGED) */}
             <style jsx global>{`
         @keyframes dotBounce {
           0%, 100% {
@@ -49,7 +49,7 @@ export default function LoadingScreen() {
       `}</style>
 
             <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white">
-                {/* 🔵 Bouncing dots */}
+                {/*  Bouncing dots */}
                 <div className="flex items-end gap-4 h-20">
                     {[0, 1, 2].map((i) => (
                         <span
@@ -65,7 +65,7 @@ export default function LoadingScreen() {
                     ))}
                 </div>
 
-                {/* 💬 Sliding tips */}
+                {/*  Sliding tips */}
                 <div className="mt-6  overflow-hidden">
                     <p
                         key={tipIndex}

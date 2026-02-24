@@ -3,6 +3,7 @@ import { z } from "zod";
 import { registerSchema } from "./schema";
 import { Suspense } from "react";
 import RegisterForm from "./RegisterForm";
+import LoadingScreen from "@/utilities/LoadingScreen";
 
 
 type SearchParams = {
@@ -27,7 +28,7 @@ export default function RegisterPage({ searchParams }: Props) {
 
 
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<LoadingScreen />}>
             <RegisterForm callbackUrl={callbackUrl} />
         </Suspense>
     );

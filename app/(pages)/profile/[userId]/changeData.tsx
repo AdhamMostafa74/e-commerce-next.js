@@ -24,7 +24,7 @@ import { Address } from '@/types/address'
 import { useAddAddress, useRemoveAddress, useUserAddress } from '@/hooks/useAddress'
 import { CheckoutFormData } from '@/app/checkout/page'
 
-/* ================= Schemas ================= */
+/*  Schemas  */
 
 const personalSchema = z.object({
     name: z.string().min(1, 'Name is required'),
@@ -73,7 +73,7 @@ export default function ChangeData({ isEditing, setIsEditing }: ChangeDataProps)
     const { data: userAdresses } = useUserAddress()
 
 
-    /* ================= Forms ================= */
+    /*  Forms  */
 
     const personalForm = useForm<PersonalDataForm>({
         resolver: zodResolver(personalSchema),
@@ -94,7 +94,7 @@ export default function ChangeData({ isEditing, setIsEditing }: ChangeDataProps)
     })
 
 
-    // ===== Addresses state =====
+    //  Addresses state 
     const [editingAddressId, setEditingAddressId] = useState<string | null>(null)
 
     const addressSchema = z.object({
@@ -116,7 +116,7 @@ export default function ChangeData({ isEditing, setIsEditing }: ChangeDataProps)
         },
     })
 
-    // TEMP data (replace with API later)
+
 
 
     const handleEditAddress = (addr: Address) => {
@@ -144,7 +144,7 @@ export default function ChangeData({ isEditing, setIsEditing }: ChangeDataProps)
         setEditingAddressId(null)
     }
 
-    /* ================= Autofill ================= */
+    /*  Autofill  */
 
     useEffect(() => {
         if (session?.user) {
@@ -156,7 +156,7 @@ export default function ChangeData({ isEditing, setIsEditing }: ChangeDataProps)
         }
     }, [session, personalForm])
 
-    /* ================= Submit Handlers ================= */
+    /*  Submit Handlers  */
 
     const submitPersonalData = async (data: PersonalDataForm) => {
         try {
@@ -171,7 +171,6 @@ export default function ChangeData({ isEditing, setIsEditing }: ChangeDataProps)
 
     const submitPasswordData = async (data: PasswordForm) => {
         try {
-            // 🔌 API later
             changePassword(data)
             toast.success('Password updated successfully')
             passwordForm.reset()
@@ -194,7 +193,7 @@ export default function ChangeData({ isEditing, setIsEditing }: ChangeDataProps)
 
             </div>
 
-            {/* ================= Change Personal Data ================= */}
+            {/*  Change Personal Data  */}
             <div className="bg-white rounded-xl shadow-sm mb-4 overflow-hidden">
                 <button
                     onClick={() =>
@@ -277,7 +276,7 @@ export default function ChangeData({ isEditing, setIsEditing }: ChangeDataProps)
                 </div>
             </div>
 
-            {/* ================= Change Password ================= */}
+            {/*  Change Password  */}
             <div className="bg-white rounded-xl shadow-sm overflow-hidden">
                 <button
                     onClick={() =>
@@ -428,7 +427,7 @@ export default function ChangeData({ isEditing, setIsEditing }: ChangeDataProps)
                 </div>
             </div>
 
-            {/* ================= Addresses ================= */}
+            {/*  Addresses  */}
             <div className="bg-white rounded-xl shadow-sm mt-4 overflow-hidden">
                 <button
                     onClick={() =>

@@ -17,7 +17,7 @@ import { useGetCart } from "@/hooks/useCart"
 import CartOverlay from "./Cart Components/CartOverlay"
 import { CgSpinner } from "react-icons/cg"
 
-/* ---------------- Active underline ---------------- */
+/*  Active underline  */
 const ActiveBar = ({ active }: { active: boolean }) => (
     <span
         className={`
@@ -55,7 +55,7 @@ export default function Navbar() {
             : { href: "/api/auth/signin", label: "LOGIN" },
     ]
 
-    /* -------- Close logout modal on ESC -------- */
+    /*  Close logout modal on ESC  */
     useEffect(() => {
         const handler = (e: KeyboardEvent) => {
             if (e.key === "Escape") setLogoutOpen(false)
@@ -66,7 +66,7 @@ export default function Navbar() {
 
     return (
         <>
-            {/* ================= Navbar ================= */}
+            {/*  Navbar  */}
             <nav className="w-full border-b shadow-sm sticky top-0 bg-white z-50">
                 <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
                     {/* Logo */}
@@ -74,7 +74,7 @@ export default function Navbar() {
                         CARTY
                     </Link>
 
-                    {/* -------- Desktop Menu -------- */}
+                    {/*  Desktop Menu  */}
                     <ul className="hidden lg:flex items-center gap-6 text-sm font-medium">
                         {status !== "loading" &&
                             navLinks.map(({ href, label }) => (
@@ -87,7 +87,7 @@ export default function Navbar() {
                             ))}
                     </ul>
 
-                    {/* -------- Right Actions (Desktop) -------- */}
+                    {/*  Right Actions (Desktop)  */}
                     <div className={`${status === 'authenticated' ? 'hidden lg:flex' : ' invisible lg:invisible flex'}  items-center gap-4 relative`}
                     >
                         {/* Cart */}
@@ -136,14 +136,14 @@ export default function Navbar() {
 
                     </div>
 
-                    {/* -------- Burger -------- */}
+                    {/*  Burger  */}
                     <button onClick={() => setOpen(true)} className="lg:hidden">
                         <Menu size={26} />
                     </button>
                 </div>
             </nav>
 
-            {/* ================= Mobile Overlay ================= */}
+            {/*  Mobile Overlay  */}
             {open && (
                 <div
                     onClick={() => setOpen(false)}
@@ -151,7 +151,7 @@ export default function Navbar() {
                 />
             )}
 
-            {/* ================= Mobile Sidebar ================= */}
+            {/*  Mobile Sidebar  */}
             <aside
                 className={`
           fixed top-0 right-0 h-full w-72 bg-white z-50
@@ -213,7 +213,7 @@ export default function Navbar() {
                 </ul>
             </aside>
 
-            {/* ================= Logout Confirm Modal ================= */}
+            {/*  Logout Confirm Modal  */}
             {logoutOpen && (
                 <>
                     <div
@@ -252,7 +252,7 @@ export default function Navbar() {
                 </>
             )}
 
-            {/* ================= Cart Overlay ================= */}
+            {/*  Cart Overlay  */}
             <CartOverlay
                 isOpen={cartOpen}
                 onClose={() => setCartOpen(false)}

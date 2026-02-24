@@ -34,7 +34,7 @@ export default function ProductDetails() {
 
             {/* Layout */}
             <div className="flex flex-col md:flex-row md:justify-between gap-6 md:gap-0">
-                {/* 🖼 Image */}
+                {/* Image */}
                 <div className="relative w-full md:w-1/3 flex justify-center md:justify-start">
                     <ProductImageGallery
                         alt={data.data.title}
@@ -43,7 +43,7 @@ export default function ProductDetails() {
                     />
                 </div>
 
-                {/* 📦 Details */}
+                {/* Details */}
                 <div className="w-full md:w-2/3 flex flex-col p-0 md:p-6 md:ps-12">
                     {/* Title / Rating / Price */}
                     <div className="border-b-2 w-full flex flex-col gap-4 pb-6">
@@ -82,7 +82,7 @@ export default function ProductDetails() {
                         </div>
 
                         <span className="text-3xl md:text-4xl italic font-bold text-blue-500">
-                            {data.data.price}.00$
+                            {data.data.price}.00 EGP
                         </span>
                     </div>
 

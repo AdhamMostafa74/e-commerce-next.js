@@ -31,6 +31,7 @@ export default function AddToCartButton({ productId }: AddtoCartProps) {
         text-white font-medium w-full
         px-5 py-2.5 rounded-md  my-3
         transition-colors disabled:bg-blue-700
+        cursor-pointer
       "
         >
             {isPending ? <div className="flex items-center gap-2">

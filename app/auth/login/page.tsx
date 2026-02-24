@@ -2,6 +2,7 @@
 import { Suspense } from "react";
 
 import LoginPageContent from "./LoginPageContent";
+import LoadingScreen from "@/utilities/LoadingScreen";
 
 export const dynamic = "force-dynamic";
 
@@ -24,7 +25,7 @@ export default function LoginForm({ searchParams }: Props) {
             : "/home";
 
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<LoadingScreen />}>
             <LoginPageContent callbackUrl={callbackUrl} />
         </Suspense>
     );

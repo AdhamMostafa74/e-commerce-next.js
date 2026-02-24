@@ -10,7 +10,7 @@ import { useSession } from "next-auth/react"
 
 export function useAddToCard() {
     const queryClient = useQueryClient()
-    const { data } = useSession()
+    const { data, status } = useSession()
 
     const query = useMutation({
 
@@ -38,7 +38,8 @@ export function useAddToCard() {
 
         },
         onError: (e) => {
-            console.log(e)
+            if (status == 'unauthenticated') { toast.error("Please Login First") }
+            else console.log(e)
         }
     })
 

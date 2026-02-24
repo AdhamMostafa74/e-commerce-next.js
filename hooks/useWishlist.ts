@@ -3,7 +3,6 @@
 "use client"
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { Product } from "@/types/Product"
 import { baseUrl } from "./api"
 import { useSession } from "next-auth/react"
 import toast from "react-hot-toast"
@@ -35,7 +34,7 @@ export function useWishlist() {
     return query
 }
 export function useAddWishlist() {
-    const { data } = useSession()
+    const { data, status } = useSession()
 
     const query = useMutation({
         mutationKey: ["addWishlist"],
@@ -60,7 +59,8 @@ export function useAddWishlist() {
 
         },
         onError: () => {
-            toast.error('An error occurred!')
+            if (status == 'unauthenticated') { toast.error("Please Login First") }
+            else toast.error('An error occurred!')
 
         },
 

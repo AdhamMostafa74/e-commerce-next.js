@@ -28,7 +28,7 @@ export default function ProductTabs({
             className="w-full border-t mt-6"
 
         >
-            {/* 🧭 Tabs Header */}
+            {/* Tabs Header */}
             <div className="relative border-b flex">
                 <button
                     onClick={() => setActiveTab('description')}
@@ -48,7 +48,7 @@ export default function ProductTabs({
 
                 </button>
 
-                {/* 🟦 Animated underline */}
+                {/* Animated underline */}
                 <span
                     className={`
             absolute bottom-0 h-0.5 bg-blue-500
@@ -60,7 +60,7 @@ export default function ProductTabs({
                 />
             </div>
 
-            {/* 📦 Content */}
+            {/* Content */}
             <div className="relative overflow-hidden min-h-35">
                 {/* Description */}
                 <div

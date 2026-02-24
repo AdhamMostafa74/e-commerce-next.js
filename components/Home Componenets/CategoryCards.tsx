@@ -7,15 +7,10 @@ import { useEffect, useRef, useState } from "react"
 import CategoriesSkeletonCarousel from "@/utilities/CategorySkeleton"
 
 export default function CategoriesCarousel() {
-    /* =======================
-       Data
-    ======================== */
+    /* Data */
     const { data, isLoading, error } = useCategories()
     const categories: Category[] = data?.data || []
-
-    /* =======================
-       State
-    ======================== */
+    /* State */
     const [visibleCount, setVisibleCount] = useState(4)
     const [cardWidth, setCardWidth] = useState(260)
     const [index, setIndex] = useState(4)
@@ -23,16 +18,12 @@ export default function CategoriesCarousel() {
     const [dragOffset, setDragOffset] = useState(0)
     const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
-    /* =======================
-       Drag state
-    ======================== */
+    /* Drag state*/
     const isDragging = useRef(false)
     const startX = useRef(0)
     const currentTranslate = useRef(0)
 
-    /* =======================
-       Responsive logic
-    ======================== */
+    /* Responsive logic*/
     useEffect(() => {
         const update = () => {
             if (window.innerWidth < 768) {
@@ -52,31 +43,23 @@ export default function CategoriesCarousel() {
         return () => window.removeEventListener("resize", update)
     }, [])
 
-    /* =======================
-       Reset index on layout change
-    ======================== */
+    /* Reset index on layout change*/
     useEffect(() => {
         setIndex(visibleCount)
     }, [visibleCount])
 
-    /* =======================
-       Infinite setup
-    ======================== */
+    /* Infinite setup*/
     const extended = [
         ...categories.slice(-visibleCount),
         ...categories,
         ...categories.slice(0, visibleCount),
     ]
 
-    /* =======================
-       Navigation
-    ======================== */
+    /* Navigation*/
     const next = () => setIndex((i) => i + 1)
     const prev = () => setIndex((i) => i - 1)
 
-    /* =======================
-       Auto play
-    ======================== */
+    /* Auto play*/
     const startAutoPlay = () => {
         stopAutoPlay()
         intervalRef.current = setInterval(next, 2000)
@@ -91,9 +74,7 @@ export default function CategoriesCarousel() {
         return stopAutoPlay
     }, [visibleCount])
 
-    /* =======================
-       Loop correction
-    ======================== */
+    /* Loop correction*/
     useEffect(() => {
         if (!categories.length) return
 
@@ -115,9 +96,7 @@ export default function CategoriesCarousel() {
         return () => clearTimeout(t)
     }, [index, categories.length, visibleCount])
 
-    /* =======================
-       Drag handlers (shadcn-like)
-    ======================== */
+    /* Drag handlers (shadcn-like)*/
     const onPointerDown = (e: React.PointerEvent) => {
         isDragging.current = true
         startX.current = e.clientX
@@ -146,15 +125,11 @@ export default function CategoriesCarousel() {
         setDragOffset(0)
         startAutoPlay()
     }
-    /* =======================
-       Loading / Error
-    ======================== */
+    /* Loading / Error*/
     if (isLoading) return <CategoriesSkeletonCarousel />
     if (error) return <p>Error loading categories</p>
 
-    /* =======================
-       Render
-    ======================== */
+    /* Render*/
     return (
         <div
             className="relative  w-3/4 my-6 md:w-xl lg:w-3xl xl:w-5xl mx-auto"

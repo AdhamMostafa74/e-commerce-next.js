@@ -58,7 +58,7 @@ export function useOnlinePayment() {
     const query = useMutation({
         mutationFn: async ({ formData, cartId }: cashPayment) => {
 
-            const res = await fetch(baseUrl + "orders/checkout-session/" + cartId + redirectUrl, {
+            const res = await fetch(baseUrl + "orders/checkout-session" + cartId + redirectUrl, {
                 method: 'POST',
 
                 headers: {
